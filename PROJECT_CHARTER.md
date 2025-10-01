@@ -43,7 +43,7 @@
 - **{{MEMBER_3}}:** {{role}}
 - **{{MEMBER_4}}:** {{role}}
 - **{{MEMBER_5}}:** {{role}}
-
+- **{{MEMBER_6}}:** Alvin
 ## Risk Assessment
 **Technical Risks:** What could go wrong technically?
 **Timeline Risks:** What might cause delays?
