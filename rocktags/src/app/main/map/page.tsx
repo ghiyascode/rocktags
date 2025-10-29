@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState,useEffect, useRef } from "react";
 import {
   GoogleMap,
   LoadScript,
@@ -114,6 +114,7 @@ export default function Home(): React.ReactElement {
   const utaOrange = "#ff6b00";
 
   // Predefined campus cats with their locations and details
+  // All data to be fetched from a backend in a real app
   const campusCats: Cat[] = [
     {
       id: 1,
@@ -268,6 +269,7 @@ export default function Home(): React.ReactElement {
   ];
 
   // Buildings with priority levels
+  // This should 
   const allBuildings: Building[] = [
     {
       name: "E.H. Hereford University Center",
@@ -461,7 +463,22 @@ export default function Home(): React.ReactElement {
     zoomControl: true,
     gestureHandling: "greedy",
   };
+  //Footer 
+  const currentYear = new Date().getFullYear();
 
+  useEffect(() => {
+    // Load Font Awesome
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
+
+    
   return (
     <div className="min-h-screen bg-blue-50">
       <link
@@ -496,55 +513,7 @@ export default function Home(): React.ReactElement {
       </header>
 
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-xl p-6 border-l-4 border-[#ff6b00] transform hover:scale-105 transition-transform">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm font-semibold uppercase tracking-wide">
-                  Campus Cats 🐾
-                </p>
-                <p className="text-4xl font-black text-[#ff6b00] mt-1">
-                  {campusCats.length}
-                </p>
-              </div>
-              <div className="bg-orange-100 rounded-full p-4">
-                <i className="fas fa-cat text-3xl text-[#ff6b00]"></i>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-xl p-6 border-l-4 border-[#0039c8] transform hover:scale-105 transition-transform">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm font-semibold uppercase tracking-wide">
-                  Campus Buildings 🏛️
-                </p>
-                <p className="text-4xl font-black text-[#0039c8] mt-1">
-                  {visibleBuildings.length}/{allBuildings.length}
-                </p>
-              </div>
-              <div className="bg-blue-100 rounded-full p-4">
-                <i className="fas fa-building text-3xl text-[#0039c8]"></i>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-xl p-6 border-l-4 border-[#ff6b00] transform hover:scale-105 transition-transform">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm font-semibold uppercase tracking-wide">
-                  Total Sightings 👀
-                </p>
-                <p className="text-4xl font-black text-[#ff6b00] mt-1">
-                  {campusCats.reduce((sum, cat) => sum + cat.sightings, 0)}
-                </p>
-              </div>
-              <div className="bg-orange-100 rounded-full p-4">
-                <i className="fas fa-eye text-3xl text-[#ff6b00]"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      
 
         <div className="bg-white rounded-3xl shadow-2xl p-6 border-4 border-white">
           <div className="relative h-[70vh] rounded-2xl overflow-hidden shadow-inner">
@@ -699,18 +668,105 @@ export default function Home(): React.ReactElement {
         </div>
       </div>
 
-      <footer className="bg-gradient-to-r from-[#0039c8] to-[#ff6b00] text-white py-6 mt-12">
-        <div className="container mx-auto text-center">
-          <p className="flex items-center justify-center gap-2 text-lg">
-            Made with <i className="fas fa-heart text-red-500"></i> for UTA Cat
-            Lovers
-          </p>
-          <p className="text-blue-100 text-sm mt-2">
-            <i className="fas fa-paw"></i> Catify Your Campus{" "}
-            <i className="fas fa-paw"></i>
-          </p>
+          <div className="w-full">
+      {/* Footer */}
+      <footer className="w-full relative overflow-hidden" style={{ backgroundColor: '#E2C3A7' }}>
+        {/* Decorative Background Elements */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+        
+        {/* Main Footer Content */}
+        <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-16">
+            
+            {/* Left Side - Meowricks (70% width - 7 columns) */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center transform hover:rotate-6 transition-all duration-300 shadow-lg">
+                  <i className="fas fa-cat text-2xl" style={{ color: '#E2C3A7' }}></i>
+                </div>
+                <h3 className="text-3xl font-bold text-black">Meowricks</h3>
+              </div>
+              
+              <div className="bg-white/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-black/10 hover:shadow-xl transition-all duration-300">
+                <p className="text-base text-black leading-relaxed">
+                  An <span className="font-semibold">ACM Create</span> project by Team Meowricks. We track campus cats using advanced GPS technology to analyze their movement patterns, behavior, and ensure their safety across the university environment. Our platform provides real-time insights to create a harmonious environment where students and cats coexist safely.
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side - Social and Contact (30% width - 3 columns) */}
+            <div className="lg:col-span-3 space-y-12">
+              
+              {/* Social Section - Top */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-black">Connect</h3>
+                <div className="flex flex-wrap gap-4">
+                  <a 
+                    href="#" 
+                    className="group w-14 h-14 bg-black rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+                  >
+                    <i className="fab fa-facebook-f text-xl group-hover:scale-110 transition-transform" style={{ color: '#E2C3A7' }}></i>
+                  </a>
+                  <a 
+                    href="#" 
+                    className="group w-14 h-14 bg-black rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+                  >
+                    <i className="fab fa-twitter text-xl group-hover:scale-110 transition-transform" style={{ color: '#E2C3A7' }}></i>
+                  </a>
+                  <a 
+                    href="#" 
+                    className="group w-14 h-14 bg-black rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+                  >
+                    <i className="fab fa-instagram text-xl group-hover:scale-110 transition-transform" style={{ color: '#E2C3A7' }}></i>
+                  </a>
+                  <a 
+                    href="#" 
+                    className="group w-14 h-14 bg-black rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1 shadow-lg hover:shadow-2xl"
+                  >
+                    <i className="fab fa-youtube text-xl group-hover:scale-110 transition-transform" style={{ color: '#E2C3A7' }}></i>
+                  </a>
+                </div>
+              </div>
+
+              {/* Contact Section - Bottom */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-black">Contact</h3>
+                <ul className="space-y-4 md:flex md:gap-4">
+                  <li>
+                    <a href="#" className="group flex items-center space-x-3 text-base text-black hover:text-black  transition-all border-r pr-5 border-black/70 hover:underline-offset-4 hover:underline">
+                      <span className="font-medium">FAQ</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="group flex items-center space-x-3 text-base text-black hover:text-black/70 transition-all border-r pr-5 border-black/70">
+                      <span className="font-medium">Get in touch</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="group flex items-center space-x-3 text-base text-black hover:text-black/70 transition-all  ">
+                      <span className="font-medium">Partnerships</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-black/15 relative z-10" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0">
+              <div className="flex items-center space-x-2 text-base text-black">
+                <i className="far fa-copyright"></i>
+                <span className="font-medium">{currentYear} ACM Cat Tracker • All rights reserved</span>
+              </div>
+            </div>
+          </div>
         </div>
       </footer>
+    </div>
     </div>
   );
 }
