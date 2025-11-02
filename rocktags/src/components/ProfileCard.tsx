@@ -1,153 +1,78 @@
 "use client";
 
-import React, { useState, type MouseEvent } from "react";
+import React, { useState, type MouseEvent, useEffect } from "react";
+import "./ProfileCard.css";
+import { getCatProfile } from "../data/getCatProfile";
+import { DEFAULT_CAT_IMAGE } from "../data/constants";
+import AboutBlock from "./AboutBlock";
+import SnacksBlock from "./SnacksBlock";
+import RubPlacesBlock from "./RubPlacesBlock";
 
-import "./ProfileCard.css"; // Import the component-specific styles
-
-// Define a type for the possible section IDs
 type CardSection = "#about" | "#demand" | "#rubplace";
 
-const ProfileCard: React.FC = () => {
-  // Use state to track the active section, initialized to "#about"
+export default function ProfileCard({ catId = "default" }: { catId?: string }) {
   const [activeSection, setActiveSection] = useState<CardSection>("#about");
-
-  // Logic to determine if the card should have the 'is-active' class
-  // Based on the script.js logic: it adds 'is-active' unless the targetSection is '#about'
   const isCardActive = activeSection !== "#about";
 
   const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
-    // Safely get the data-section attribute
-    const targetSection = e.currentTarget.getAttribute(
+    const section = e.currentTarget.getAttribute(
       "data-section"
     ) as CardSection | null;
-
-    if (targetSection) {
-      setActiveSection(targetSection);
-    }
-  };
-
-  // Content rendering utility
-  const renderSectionContent = (sectionId: CardSection) => {
-    switch (sectionId) {
-      case "#about":
-        return (
-          <>
-            <div className="card-subtitle">ABOUT</div>
-            <p
-              className="card-desc"
-              id="about-description"
-              data-field="about.description"
-            >
-              This fluffy little cat is pure joy — playful, cuddly, and always
-              ready to melt hearts with every tiny purr. 🐾💛
-            </p>
-          </>
-        );
-      case "#demand":
-        return (
-          <>
-            <div className="card-subtitle">DEMAND SNACKS</div>
-            <ul className="card-desc">
-              <li>
-                Royal Canin – Vet-recommended formulas for specific breeds and
-                health needs.
-              </li>
-              <li>
-                Hill’s Science Diet – Scientifically formulated for overall
-                health and weight management.
-              </li>
-              <li>
-                Purina Pro Plan – High-protein recipes with real meat and
-                tailored nutrition.
-              </li>
-              <li>
-                Blue Buffalo – Natural ingredients with no artificial flavors or
-                preservatives.
-              </li>
-            </ul>
-          </>
-        );
-      case "#rubplace":
-        return (
-          <>
-            <div className="card-subtitle">RUB PLACE</div>
-            <div className="card-rubplace-wrapper">
-              <div className="card-rubplace">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/128/1818/1818401.png"
-                  alt="icon"
-                />
-                Under the chin (preferred spot, gentle strokes only)
-              </div>
-              <div className="card-rubplace">
-                <img
-                  src="https://cdn-icons-png.flaticon.com/128/1818/1818401.png"
-                  alt="icon"
-                />
-                Behind the ears: a soothing, favorite massage spot for cats. 🐱
-              </div>
-            </div>
-          </>
-        );
-      default:
-        return null;
-    }
+    if (section) setActiveSection(section);
   };
 
   return (
     <div
-      className={`card ${isCardActive ? "is-active" : ""}`}
+      className={`card border-card ${isCardActive ? "is-active" : ""}`}
       data-state={activeSection}
     >
       <div className="card-header">
-        {/* Cover image */}
         <div
           className="card-cover"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1549068106-b024baf5062d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80')",
+              "url('https://images.unsplash.com/photo-1549068106-b024baf5062d?auto=format&fit=crop&w=934&q=80')",
           }}
-        ></div>
-        {/* Avatar image */}
-        <img
-          className="card-avatar"
-          src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          alt="avatar"
         />
-        <h1 className="card-fullname">Mr. Kitten</h1>
-        <h2 className="card-jobtitle">I love to sleep</h2>
+        <img className="card-avatar" src={DEFAULT_CAT_IMAGE} alt="avatar" />
+
+        {/* HEADER TEXT FROM CACHED DATA */}
+        <HeaderText catId={catId} />
       </div>
 
       <div className="card-main">
-        {/* Sections */}
         {(
           [
             { id: "#about", label: "ABOUT" },
-            { id: "#demand", label: "DEMAND SNACKS" },
+            { id: "#demand", label: "RECOMMENDED SNACKS" },
             { id: "#rubplace", label: "RUB PLACE" },
-          ] as { id: CardSection; label: string }[]
+          ] as const
         ).map((section) => (
           <div
             key={section.id}
             className={`card-section ${
               activeSection === section.id ? "is-active" : ""
             }`}
-            id={section.id.substring(1)} // Remove '#' for the actual HTML id
+            id={section.id.substring(1)}
           >
             <div className="card-content">
-              {renderSectionContent(section.id)}
+              <div className="card-subtitle">{section.label}</div>
+
+              {section.id === "#about" && <AboutBlock catId={catId} />}
+              {section.id === "#demand" && <SnacksBlock catId={catId} />}
+              {section.id === "#rubplace" && <RubPlacesBlock catId={catId} />}
             </div>
           </div>
         ))}
 
-        {/* Buttons (Navigation) */}
+        {/* Navigation buttons remain unchanged */}
         <div className="card-buttons">
           {(
             [
               { id: "#about", label: "ABOUT" },
-              { id: "#demand", label: "DEMAND SNACKS" },
+              { id: "#demand", label: "RECOMMENDED SNACKS" },
               { id: "#rubplace", label: "RUB PLACE" },
-            ] as { id: CardSection; label: string }[]
+            ] as const
           ).map((button) => (
             <button
               key={button.id}
@@ -162,6 +87,32 @@ const ProfileCard: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-export default ProfileCard;
+function HeaderText({ catId }: { catId: string }) {
+  const [name, setName] = useState("Loading...");
+  const [tagline, setTagline] = useState("Loading...");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const profile = await getCatProfile(catId);
+        setName(profile.name);
+        setTagline(profile.tagline);
+      } catch (error) {
+        console.error("Error fetching cat profile:", error);
+        setName("Error");
+        setTagline("Error");
+      }
+    }
+
+    fetchData();
+  }, [catId]);
+
+  return (
+    <>
+      <h1 className="card-fullname">{name}</h1>
+      <h2 className="card-jobtitle">{tagline}</h2>
+    </>
+  );
+}

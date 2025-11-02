@@ -11,36 +11,99 @@
 
 /* Base Card Styles */
 .card {
-  max-width: 340px;
+  max-width: 650px;
   margin: auto;
-
-  overflow-y: auto;
+  overflow: hidden;
   scrollbar-width: none;
+  -ms-overflow-style: none; /* IE and Edge */
   position: relative;
   z-index: 1;
-  overflow-x: hidden;
   background-color: rgba(255, 255, 255, 1);
   display: flex;
   transition: 0.3s;
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+  height: auto;
+}
+
+.card::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Explicit border-card variant requested by user (keeps card appearance when outer wrapper removed) */
+.border-card {
+  max-width: 650px;
+  margin: auto;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* IE and Edge */
+  position: relative;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  transition: 0.3s;
+  flex-direction: column;
+  border-radius: 10px;
+  /* User-requested white halo ring */
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+  height: auto;
+}
+
+.border-card::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Hide scrollbar for all elements within the card */
+.card *::-webkit-scrollbar,
+.border-card *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.card *,
+.border-card * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for the sidebar container */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 /* Card state dimensions */
 .card[data-state="#about"] {
-  height: 450px;
+  height: auto;
+  min-height: 450px;
+  max-height: 600px;
 }
 .card[data-state="#about"] .card-main {
   padding-top: 0;
 }
 
 .card[data-state="#rubplace"] {
-  height: 430px;
+  height: auto;
+  min-height: 400px;
+  max-height: 500px;
 }
 
 .card[data-state="#demand"] {
-  height: 550px;
+  height: auto;
+  min-height: 450px;
+  max-height: 600px;
 }
 
 /* Minimized Header/Active card state styles (UN-NESTED & GAP FIXED) */
@@ -151,11 +214,11 @@
   position: relative;
   flex: 1;
   display: flex;
-  padding-top: 10px;
+  padding-top: 15px;
   flex-direction: column;
-
+  overflow: hidden;
   /* CRITICAL: Add padding to clear the fixed menu bar */
-  padding-bottom: 55px;
+  padding-bottom: 65px;
 }
 
 .card-subtitle {
@@ -165,7 +228,7 @@
 }
 
 .card-content {
-  padding: 20px;
+  padding: 20px 25px;
 }
 
 .card-desc {
@@ -243,7 +306,7 @@
   }
 }
 
-/* Timeline/Demand (DEMAND SNACKS) styles */
+/* Timeline/Demand (RECOMMENDED SNACKS) styles */
 .card-timeline {
   margin-top: 30px;
   position: relative;

@@ -10,7 +10,6 @@ import {
 import type { Cat, Building, LatLng, MapOptionsShape } from "./types";
 import type { LoadScriptProps } from "@react-google-maps/api";
 
-
 // Custom map style with UTA colors
 const mapStyles = [
   {
@@ -72,10 +71,10 @@ const buildingIcon = {
   scaledSize: { width: 40, height: 40 },
 };
 
-const libraries: LoadScriptProps['libraries'] = ["places"];
+const libraries: LoadScriptProps["libraries"] = ["places"];
 
 import React from "react";
-import ProfileCard from "@/app/components/ProfileCard";
+import ProfileCard from "@/components/ProfileCard";
 
 export default function Home(): React.ReactElement {
   const [activeCatIndex, setActiveCatIndex] = useState<number | null>(null);
@@ -694,7 +693,13 @@ export default function Home(): React.ReactElement {
           }`}
         >
           <div className="p-6">
-            <ProfileCard />
+            <ProfileCard
+              catId={
+                activeCatIndex !== null
+                  ? campusCats[activeCatIndex].id.toString()
+                  : "default"
+              }
+            />
           </div>
         </div>
       </div>
