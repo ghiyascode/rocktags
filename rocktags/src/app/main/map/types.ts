@@ -57,7 +57,9 @@ export type Buildings = Building[];
 // Example defaults (handy for quick imports)
 export const defaultCenter: LatLng = { lat: 32.7318, lng: -97.1115 };
 
+
 /*
+
 Usage example in a TypeScript/TSX file:
 
 import type { Cat, Building, MapOptionsShape } from './types';
