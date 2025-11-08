@@ -101,24 +101,42 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
   const markers = useRef<google.maps.Marker[]>([]);
 
   /* ---------- LOAD GOOGLE MAPS ---------- */
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
-      console.error("Missing Google Maps API key");
-      return;
-    }
+/* ---------- LOAD GOOGLE MAPS (ONLY ONCE) ---------- */
+useEffect(() => {
+  if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) {
+    console.error("Missing Google Maps API key");
+    return;
+  }
 
-    if (window.google?.maps) {
-      initMap();
-      return;
-    }
+  // Already loaded?
+  if (window.google?.maps) {
+    initMap();
+    return;
+  }
 
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
-    script.async = true;
-    script.onload = initMap;
-    document.head.appendChild(script);
-    return () => script.remove();
-  }, []);
+  // Check if script tag already exists
+  const existingScript = document.querySelector(
+    `script[src*="maps.googleapis.com"][src*="key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}"]`
+  );
+
+  if (existingScript) {
+    // Wait for it to finish loading
+    existingScript.addEventListener("load", initMap);
+    return;
+  }
+
+  // Create and add script
+  const script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`;
+  script.async = true;
+  script.onload = initMap;
+  document.head.appendChild(script);
+
+  // Cleanup
+  return () => {
+    script.remove();
+  };
+}, []);
 
   const initMap = () => {
     if (!mapDiv.current) return;
