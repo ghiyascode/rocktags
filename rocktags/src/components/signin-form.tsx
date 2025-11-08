@@ -1,45 +1,48 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
 import { auth } from "@/config/firebase";
-import { Button } from "@/components/ui/button";
+import { Button } from "./ui/button";
+import { ButtonGroup } from "./ui/button-group";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Mail, Lock, LogIn, Home, Sparkles } from "lucide-react";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
   const router = useRouter();
 
-  const handleSignin = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     setLoading(true);
-    setMessage("");
+    setMessage(null);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      if(!auth.currentUser?.emailVerified) {
-        setMessage("Email not verified. Please check your inbox for a verification email.");
+      if (!user.emailVerified) {
         await signOut(auth);
+        setMessage({ text: "Please verify your email. Check your inbox (and spam).", type: "error" });
         return;
       }
-      else {
-        setMessage("Signed in successfully!");
-        setEmail("");
-        setPassword("");
-        // Navigate to main area after successful signin
-        setTimeout(() => {
-          router.push("/main/map");
-        }, 100);
-      }
 
-    } catch (error: unknown) {
-      setMessage(error instanceof Error ? error.message : "An error occurred during sign in");
+      setMessage({ text: "Welcome back! Redirecting...", type: "success" });
+      setTimeout(() => router.push("/main/map"), 1200);
+    } catch (error: any) {
+      const msg = error.code === "auth/user-not-found"
+        ? "No account found with this email."
+        : error.code === "auth/wrong-password"
+        ? "Incorrect password."
+        : error.code === "auth/invalid-email"
+        ? "Invalid email address."
+        : error.message || "Sign in failed. Try again.";
+
+      setMessage({ text: msg, type: "error" });
     } finally {
       setLoading(false);
     }
@@ -47,88 +50,123 @@ export function SignInForm() {
 
   const handleResetPassword = async () => {
     if (!email) {
-      setMessage("Please enter your email address first");
+      setMessage({ text: "Enter your email first.", type: "error" });
       return;
     }
-
     try {
       await sendPasswordResetEmail(auth, email);
-      setMessage("Password reset email sent! Check your inbox.");
-    } catch (error: unknown) {
-      setMessage(error instanceof Error ? error.message : "Failed to send reset email");
+      setMessage({ text: "Password reset email sent! Check your inbox.", type: "success" });
+    } catch {
+      setMessage({ text: "Failed to send reset email.", type: "error" });
     }
   };
 
   return (
-    <div className="flex flex-col items-center space-y-8">
-      <div className="w-full max-w-md bg-background/40 backdrop-blur-xl border border-border/50 shadow-2xl rounded-2xl p-8">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            Welcome Back
-          </h2>
-          <p className="text-muted-foreground">
-            Sign in to your account
-          </p>
+    <div className="w-full max-w-md mx-auto">
+      {/* Logo */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center space-x-2 animate-fade-in">
+          <div className="relative">
+            <Sparkles className="w-10 h-10 text-yellow-400 animate-pulse" />
+            <div className="absolute inset-0 bg-yellow-400 blur-xl opacity-50 animate-ping" />
+          </div>
+          <h1 className="text-4xl font-bold font-['Poppins']">Meovrick</h1>
         </div>
+        <p className="text-white/70 mt-2 font-['Roboto']">Sign in to track your favorite campus cats</p>
+      </div>
 
-        <form onSubmit={handleSignin} className="space-y-6">
+      {/* CARD: #4E2A17 */}
+      <div className="bg-[#4E2A17] backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl">
+        <form onSubmit={handleSignIn} className="space-y-6">
           <div className="space-y-4">
-            <div>
+            <div className="relative group">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
               <input
                 type="email"
-                placeholder="Email address"
+                placeholder="UTA Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-border bg-background/50 backdrop-blur-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
                 required
               />
             </div>
-            <div>
+
+            <div className="relative group">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-border bg-background/50 backdrop-blur-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
                 required
               />
             </div>
           </div>
 
           {message && (
-            <div className={`text-center text-sm ${
-              message.includes("successfully") ? "text-green-600" : "text-red-600"
+            <div className={`text-center text-sm font-medium p-3 rounded-lg ${
+              message.type === "success" ? "bg-green-500/20 text-green-300" : "bg-red-500/20 text-red-300"
             }`}>
-              {message}
+              {message.text}
             </div>
           )}
 
+          {/* BUTTON: White bg, dark text */}
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+            className="w-full bg-white hover:bg-gray-100 text-[#4E2A17] font-bold text-lg h-12 rounded-xl shadow-lg hover:shadow-white/50 transition-all"
           >
-            {loading ? "Signing In..." : "Sign In"}
+            {loading ? "Signing In..." : (
+              <>
+                <LogIn className="w-5 h-5 mr-2" />
+                Sign In
+              </>
+            )}
           </Button>
 
           <div className="text-center">
-            <Button
+            <button
               type="button"
-              variant="ghost"
               onClick={handleResetPassword}
-              className="text-sm text-muted-foreground hover:text-foreground"
+              className="text-sm text-white/70 hover:text-yellow-400 transition-colors font-['Roboto']"
             >
-              Forgot Password?
-            </Button>
-          </div>
-
-          <div className="text-center pt-4">
-            <Button asChild variant="outline" className="border-border hover:bg-accent/50">
-              <Link href="/">Back to Home</Link>
-            </Button>
+              Forgot password?
+            </button>
           </div>
         </form>
+
+        <div className="mt-8 pt-6 border-t border-white/10">
+          <p className="text-center text-white/70 text-sm font-['Roboto']">
+            Don't have an account?{" "}
+            <Link href="/signup" className="text-yellow-400 hover:underline font-medium">
+              Sign up
+            </Link>
+          </p>
+        </div>
+
+        <ButtonGroup className="mt-6">
+          <Button
+            asChild
+            variant="outline"
+            className="flex-1 border-white/30 text-white hover:bg-white hover:text-[#4E2A17] bg-[#4E2A17]/70"
+          >
+            <Link href="/">
+              <Home className="w-4 h-4 mr-2" />
+              Home
+            </Link>
+          </Button>
+        </ButtonGroup>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out; }
+      `}</style>
     </div>
   );
 }

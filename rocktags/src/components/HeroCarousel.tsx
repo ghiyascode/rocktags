@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -19,7 +19,10 @@ export function HeroCarousel() {
   const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
-    const id = setInterval(() => setSlide((s) => (s + 1) % catSlides.length), 5000);
+    const id = setInterval(
+      () => setSlide((s) => (s + 1) % catSlides.length),
+      5000
+    );
     return () => clearInterval(id);
   }, []);
 
@@ -56,7 +59,9 @@ export function HeroCarousel() {
             className="object-cover"
             priority={i === 0}
             onError={(e) => {
-              e.currentTarget.src = `https://via.placeholder.com/1920x1080/6D4C41/FFFFFF?text=${encodeURIComponent(img.alt)}`;
+              e.currentTarget.src = `https://via.placeholder.com/1920x1080/6D4C41/FFFFFF?text=${encodeURIComponent(
+                img.alt
+              )}`;
             }}
           />
         </div>
@@ -68,16 +73,26 @@ export function HeroCarousel() {
           <button
             key={i}
             onClick={() => setSlide(i)}
-            className={`transition-all ${i === slide ? "w-12 h-3 bg-yellow-400 rounded-full" : "w-3 h-3 bg-white/50 rounded-full hover:bg-white/80"}`}
+            className={`transition-all ${
+              i === slide
+                ? "w-12 h-3 bg-yellow-400 rounded-full"
+                : "w-3 h-3 bg-white/50 rounded-full hover:bg-white/80"
+            }`}
           />
         ))}
       </div>
 
       {/* Arrows */}
-      <button onClick={goPrev} className="absolute left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 group">
+      <button
+        onClick={goPrev}
+        className="absolute left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 group"
+      >
         <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform" />
       </button>
-      <button onClick={goNext} className="absolute right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 group">
+      <button
+        onClick={goNext}
+        className="absolute right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 group"
+      >
         <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
       </button>
 
@@ -92,11 +107,27 @@ export function HeroCarousel() {
         </p>
 
         <ButtonGroup className="mx-auto animate-fade-in-delay-2">
-          <Button size="lg" onClick={() => router.push("/signin")}>
+          {/* Sign In: Dark brown, white text */}
+          <Button
+            size="lg"
+            onClick={() => router.push("/signin")}
+            className="bg-[#4E2A17] hover:bg-[#3d1f0f] text-white"
+          >
             <LogIn className="w-5 h-5 mr-2" /> Sign In
           </Button>
-          <ButtonGroupSeparator orientation="vertical" className="hidden sm:block" />
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#4E2A17]" onClick={() => router.push("/signup")}>
+
+          <ButtonGroupSeparator
+            orientation="vertical"
+            className="hidden sm:block"
+          />
+
+          {/* Sign Up: White, black text */}
+          <Button
+            size="lg"
+            variant="outline"
+            className="bg-white hover:bg-gray-100 text-[#4E2A17] border-white"
+            onClick={() => router.push("/signup")}
+          >
             <UserPlus className="w-5 h-5 mr-2" /> Sign Up
           </Button>
         </ButtonGroup>

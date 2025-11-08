@@ -4,7 +4,7 @@ import { SignUpForm } from "@/components/signup-form";
 // Must be a default export AND a React component
 export default function SignUpPage() {
   return (
-    <div className="min-h-screen bg-[#4E2A17] flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <SignUpForm />
     </div>
   );
