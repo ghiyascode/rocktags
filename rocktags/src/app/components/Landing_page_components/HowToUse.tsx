@@ -20,13 +20,13 @@ const STEPS: Step[] = [
     step: 2,
     title: "Open Maps",
     icon: MapPin,
-    desc: "Navigate to the interactive campus map.",
+    desc: "Navigate to the interactive and amazing campus map.",
   },
   {
     step: 3,
     title: "See your favourite cat",
     icon: Cat,
-    desc: "Find, follow, and view cat profiles.",
+    desc: "Find, follow, and view cat profiles. It is simple as that!",
   },
 ];
 
@@ -38,24 +38,42 @@ function StepCard({ step }: StepCardProps) {
   const Icon = step.icon;
 
   return (
-    <div className="relative group">
-      <article className="relative bg-white/10 backdrop-blur-sm border-2 border-yellow-400/60 rounded-2xl p-8 shadow-[0_0_20px_rgba(250,204,21,0.4)] h-full transition-all duration-300 group-hover:scale-105 group-hover:border-yellow-400 group-hover:shadow-[0_0_40px_rgba(250,204,21,0.6)]">
-        {/* Step Number Badge */}
-        <div 
-          className="w-16 h-16 bg-yellow-400 text-[#4E2A17] rounded-full flex items-center justify-center text-2xl font-bold font-poppins mb-6"
+    <div className="w-80 mx-auto">
+      <article className="
+        relative bg-white/10 backdrop-blur-md
+        border-2 border-[#E2C3A7]/40 rounded-2xl
+        p-7 shadow-[0_0_20px_rgba(226,195,167,0.25)]
+        h-full transition-all duration-300
+        hover:scale-105 hover:border-[#E2C3A7]
+        hover:shadow-[0_0_30px_rgba(226,195,167,0.4)]
+      ">
+        {/* Step Number */}
+        <div
+          className="
+            w-14 h-14 bg-[#E2C3A7] text-[#4E2A17]
+            rounded-full flex items-center justify-center
+            text-xl font-bold font-heading
+            shadow-md mb-5
+          "
           aria-label={`Step ${step.step}`}
         >
           {step.step}
         </div>
 
-        {/* Title + Icon – SAME SIZE AS DESC */}
-        <h3 className="text-lg font-bold font-roboto mb-3 flex items-center gap-2 text-[#4E2A17]">
-          <Icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+        {/* Title */}
+        <h3 className="
+          text-lg font-bold font-heading
+          text-[#E2C3A7] mb-2 flex items-center gap-2
+        ">
+          <Icon className="w-5 h-5 text-[#E2C3A7] flex-shrink-0" />
           <span>{step.title}</span>
         </h3>
 
-        {/* Description – SAME SIZE, SAME STYLE */}
-        <p className="text-lg font-bold font-roboto text-[#4E2A17] leading-relaxed">
+        {/* Description */}
+        <p className="
+          text-sm font-body text-black
+          leading-snug
+        ">
           {step.desc}
         </p>
       </article>
@@ -65,44 +83,67 @@ function StepCard({ step }: StepCardProps) {
 
 export function HowToUse() {
   return (
-    <section 
-      className="py-20 px-4 bg-white/5"
+    <section
+      className="py-16 px-4 bg-gradient-to-b from-transparent to-white/5"
       aria-labelledby="how-to-use-heading"
     >
-      <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-12">
-          <h2 
+      <div className="max-w-[1100px] mx-auto">
+        <header className="text-center mb-14">
+          <h2
             id="how-to-use-heading"
-            className="text-4xl sm:text-5xl font-bold font-poppins mb-6 text-white"
+            className="text-4xl sm:text-5xl font-bold font-heading text-white mb-5 tracking-tight"
           >
-            How to Use Meovrick
+            How to Use Meowvrick
           </h2>
-          <div 
-            className="w-24 h-1 bg-yellow-400 mx-auto"
-            aria-hidden="true"
-          />
+          <div className="w-20 h-1 bg-[#E2C3A7] mx-auto rounded-full shadow-md" />
         </header>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+        {/* DESKTOP: Tight Horizontal Flow */}
+        <div className="hidden md:flex items-center justify-center gap-6">
           {STEPS.map((step, index) => (
             <div key={step.step} className="flex items-center">
               <StepCard step={step} />
-              
-              {/* Arrow between steps */}
               {index < STEPS.length - 1 && (
-                <svg 
-                  width="80" 
-                  height="80" 
-                  viewBox="0 0 80 80" 
-                  fill="none" 
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 80 80"
+                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] mx-4 md:rotate-0 rotate-90"
+                  className="text-[#E2C3A7] drop-shadow-sm mx-2"
                 >
-                  <path 
-                    d="M10 40H70M70 40L50 20M70 40L50 60" 
-                    stroke="currentColor" 
-                    strokeWidth="6" 
-                    strokeLinecap="round" 
+                  <path
+                    d="M15 40H65M65 40L48 23M65 40L48 57"
+                    stroke="currentColor"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* MOBILE: Tight Vertical Stack */}
+        <div className="flex md:hidden flex-col items-center space-y-8">
+          {STEPS.map((step, index) => (
+            <div key={step.step} className="w-full max-w-xs">
+              <StepCard step={step} />
+              {index < STEPS.length - 1 && (
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 80 80"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-[#E2C3A7] drop-shadow mx-auto mt-4"
+                >
+                  <path
+                    d="M40 15V65M40 65L58 48M40 65L22 48"
+                    stroke="currentColor"
+                    strokeWidth="5"
+                    strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 </svg>
