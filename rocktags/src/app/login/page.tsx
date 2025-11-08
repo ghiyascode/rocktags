@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/navigation";
+import { Navigation } from "@/components/Navbar";
 import { SignInForm } from "@/components/signin-form";
 import { SignUpForm } from "@/components/signup-form";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import type { Cat } from "../main/map/types";
+import type { Cat } from "./types";
 
 interface Props {
   cat: Cat | null;

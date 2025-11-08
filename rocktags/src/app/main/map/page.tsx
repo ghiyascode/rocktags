@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import type { Cat, Building } from "./types";
+import type { Cat, Building } from "../../components/types";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CatProfileModal from "@/app/components/CatProfileModal";

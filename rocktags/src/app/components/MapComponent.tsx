@@ -1,248 +1,267 @@
-"use client";
+import { useState, useEffect, useRef } from "react";
 
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
-import type { Cat, Building } from "../main/map/types";
+// Sample data - replace with your actual data
+const SAMPLE_CATS = [
+  { id: "cat1", name: "Whiskers", lat: 32.7318, lng: -97.1115, color: "Orange tabby", activity: "Napping under a tree" },
+  { id: "cat2", name: "Shadow", lat: 32.7328, lng: -97.1125, color: "Black", activity: "Hunting near the library" },
+  { id: "cat3", name: "Mittens", lat: 32.7308, lng: -97.1105, color: "White with gray spots", activity: "Playing with students" },
+];
 
-const libraries = ["places"] as const;
+const SAMPLE_BUILDINGS = [
+  { id: "bld1", name: "Central Library", abbr: "LIB", lat: 32.7320, lng: -97.1120, priority: 1 },
+  { id: "bld2", name: "Engineering Building", abbr: "ERB", lat: 32.7315, lng: -97.1110, priority: 1 },
+  { id: "bld3", name: "Science Hall", abbr: "SH", lat: 32.7310, lng: -97.1118, priority: 2 },
+  { id: "bld4", name: "Student Center", abbr: "UC", lat: 32.7325, lng: -97.1115, priority: 1 },
+];
 
-interface MapComponentProps {
-  campusCats: Cat[];
-  allBuildings: Building[];
-  onCatClick: (cat: Cat) => void;
-  onBuildingClick: (building: Building) => void;
-  onInfoWindowClose: () => void;
-}
+// Read API key from Next.js environment variable
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-// === SVG Icons (outside component, safe) ===
-const catSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <circle cx="24" cy="24" r="20" fill="#E2C3A7" stroke="#D4A88C" stroke-width="2"/>
-  <path d="M18 18c-1 0-2 1-2 2s1 2 2 2m12 0c1 0 2-1 2-2s-1-2-2-2m-8 8c-2 2-6 2-8 0" stroke="#8B6F47" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M15 14l-3-3m18 0l3-3" stroke="#D4A88C" stroke-width="2" stroke-linecap="round"/>
-</svg>`;
-
-const buildingSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
-  <rect x="8" y="10" width="24" height="24" rx="2" fill="#E2C3A7" stroke="#D4A88C" stroke-width="2"/>
-  <rect x="12" y="14" width="4" height="4" fill="#8B6F47"/>
-  <rect x="24" y="14" width="4" height="4" fill="#8B6F47"/>
-  <rect x="12" y="22" width="4" height="4" fill="#8B6F47"/>
-  <rect x="24" y="22" width="4" height="4" fill="#8B6F47"/>
-  <rect x="18" y="22" width="4" height="4" fill="#8B6F47"/>
-</svg>`;
-
-const MapComponent = ({
-  campusCats,
-  allBuildings,
-  onCatClick,
-  onBuildingClick,
-  onInfoWindowClose,
-}: MapComponentProps) => {
-  const [activeCatId, setActiveCatId] = useState<string | null>(null);
-  const [activeBuildingId, setActiveBuildingId] = useState<string | null>(null);
+const MapComponent = () => {
+  const [map, setMap] = useState(null);
+  const [selectedCat, setSelectedCat] = useState(null);
+  const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [currentZoom, setCurrentZoom] = useState(16);
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const [catIcon, setCatIcon] = useState<google.maps.Icon | null>(null);
-  const [buildingIcon, setBuildingIcon] = useState<google.maps.Icon | null>(null);
-  const [bounds, setBounds] = useState<google.maps.LatLngBounds | null>(null);
-  const mapRef = useRef<google.maps.Map | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const mapRef = useRef(null);
+  const markersRef = useRef([]);
 
-  // === Create icons & bounds only after Google Maps loads ===
   useEffect(() => {
-    if (!isScriptLoaded || !window.google?.maps) return;
+    // Check if API key is available
+    if (!GOOGLE_MAPS_API_KEY) {
+      console.error("Google Maps API key is missing. Please add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your .env file");
+      return;
+    }
 
-    const g = window.google.maps;
+    // Load Google Maps script
+    if (window.google) {
+      setIsLoaded(true);
+      return;
+    }
 
-    // Create icons
-    setCatIcon({
-      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(catSvg),
-      scaledSize: new g.Size(48, 48),
-      labelOrigin: new g.Point(24, -10),
-    });
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => setIsLoaded(true);
+    script.onerror = () => {
+      console.error("Failed to load Google Maps API. Check your API key and network connection.");
+    };
+    document.head.appendChild(script);
 
-    setBuildingIcon({
-      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(buildingSvg),
-      scaledSize: new g.Size(40, 40),
-      labelOrigin: new g.Point(20, -10),
-    });
-
-    // Create bounds
-    setBounds(
-      new g.LatLngBounds(
-        { lat: 32.725, lng: -97.118 },
-        { lat: 32.738, lng: -97.105 }
-      )
-    );
-  }, [isScriptLoaded]);
-
-  const handleZoomChanged = useCallback(() => {
-    if (!mapRef.current) return;
-    const zoom = mapRef.current.getZoom();
-    if (zoom) setCurrentZoom(Math.round(zoom));
+    return () => {
+      // Cleanup if needed
+    };
   }, []);
 
-  const onLoad = useCallback((map: google.maps.Map) => {
-    mapRef.current = map;
-  }, []);
+  useEffect(() => {
+    if (!isLoaded || !mapRef.current || map) return;
 
-  const visibleBuildings = useMemo(() => {
-    if (currentZoom < 16) return allBuildings.filter((b) => b.priority === 1);
-    if (currentZoom < 17) return allBuildings.filter((b) => b.priority <= 2);
-    return allBuildings;
-  }, [allBuildings, currentZoom]);
+    const googleMap = new window.google.maps.Map(mapRef.current, {
+      center: { lat: 32.7318, lng: -97.1115 },
+      zoom: 16,
+      styles: [
+        { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
+        { featureType: "transit", elementType: "labels", stylers: [{ visibility: "off" }] },
+        { featureType: "road", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+        { featureType: "poi.park", elementType: "geometry.fill", stylers: [{ color: "#E2C3A7" }] },
+        { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#F5E6D3" }] },
+        { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
+        { featureType: "water", elementType: "geometry", stylers: [{ color: "#A7D2E2" }] },
+      ],
+      restriction: {
+        latLngBounds: {
+          north: 32.738,
+          south: 32.725,
+          east: -97.105,
+          west: -97.118,
+        },
+        strictBounds: false,
+      },
+      minZoom: 15,
+      maxZoom: 18,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true,
+      zoomControl: true,
+      gestureHandling: "greedy",
+      clickableIcons: false,
+    });
 
-  const center = { lat: 32.7318, lng: -97.1115 };
+    googleMap.addListener("zoom_changed", () => {
+      setCurrentZoom(googleMap.getZoom());
+    });
 
-  const mapOptions: google.maps.MapOptions = {
-    styles: [
-      { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
-      { featureType: "transit", elementType: "labels", stylers: [{ visibility: "off" }] },
-      { featureType: "road", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-      { featureType: "poi.park", elementType: "geometry.fill", stylers: [{ color: "#E2C3A7" }] },
-      { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#F5E6D3" }] },
-      { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
-      { featureType: "water", elementType: "geometry", stylers: [{ color: "#A7D2E2" }] },
-    ],
-    restriction: bounds ? { latLngBounds: bounds, strictBounds: false } : undefined,
-    minZoom: 15,
-    maxZoom: 18,
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true,
-    zoomControl: true,
-    gestureHandling: "greedy",
-    clickableIcons: false,
-  };
+    googleMap.addListener("click", () => {
+      setSelectedCat(null);
+      setSelectedBuilding(null);
+    });
 
-  const closeInfoWindows = useCallback(() => {
-    setActiveCatId(null);
-    setActiveBuildingId(null);
-    onInfoWindowClose();
-  }, [onInfoWindowClose]);
+    setMap(googleMap);
+  }, [isLoaded, map]);
 
-  // === Show loading until everything is ready ===
-  if (!isScriptLoaded || !catIcon || !buildingIcon || !bounds) {
+  useEffect(() => {
+    if (!map || !window.google) return;
+
+    // Clear existing markers
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    const catSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+      <circle cx="24" cy="24" r="20" fill="#E2C3A7" stroke="#D4A88C" stroke-width="2"/>
+      <circle cx="18" cy="20" r="3" fill="#8B6F47"/>
+      <circle cx="30" cy="20" r="3" fill="#8B6F47"/>
+      <path d="M18 28 Q24 32 30 28" stroke="#8B6F47" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M15 14l-3-3m21 0l3-3" stroke="#D4A88C" stroke-width="2" stroke-linecap="round"/>
+    </svg>`;
+
+    const buildingSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+      <rect x="8" y="10" width="24" height="24" rx="2" fill="#E2C3A7" stroke="#D4A88C" stroke-width="2"/>
+      <rect x="12" y="14" width="4" height="4" fill="#8B6F47"/>
+      <rect x="24" y="14" width="4" height="4" fill="#8B6F47"/>
+      <rect x="12" y="22" width="4" height="4" fill="#8B6F47"/>
+      <rect x="24" y="22" width="4" height="4" fill="#8B6F47"/>
+      <rect x="18" y="22" width="4" height="4" fill="#8B6F47"/>
+    </svg>`;
+
+    // Add cat markers
+    SAMPLE_CATS.forEach(cat => {
+      const marker = new window.google.maps.Marker({
+        position: { lat: cat.lat, lng: cat.lng },
+        map: map,
+        icon: {
+          url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(catSvg),
+          scaledSize: new window.google.maps.Size(48, 48),
+        },
+        title: cat.name,
+        animation: selectedCat?.id === cat.id ? window.google.maps.Animation.BOUNCE : null,
+      });
+
+      marker.addListener("click", () => {
+        setSelectedCat(cat);
+        setSelectedBuilding(null);
+      });
+
+      markersRef.current.push(marker);
+    });
+
+    // Add building markers (filter by zoom level)
+    const visibleBuildings = currentZoom < 16 
+      ? SAMPLE_BUILDINGS.filter(b => b.priority === 1)
+      : currentZoom < 17
+      ? SAMPLE_BUILDINGS.filter(b => b.priority <= 2)
+      : SAMPLE_BUILDINGS;
+
+    visibleBuildings.forEach(building => {
+      const marker = new window.google.maps.Marker({
+        position: { lat: building.lat, lng: building.lng },
+        map: map,
+        icon: {
+          url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(buildingSvg),
+          scaledSize: new window.google.maps.Size(40, 40),
+        },
+        title: building.name,
+        label: currentZoom >= 17 ? {
+          text: building.abbr,
+          color: "#ffffff",
+          fontSize: "10px",
+          fontWeight: "bold",
+        } : undefined,
+        animation: selectedBuilding?.id === building.id ? window.google.maps.Animation.DROP : null,
+      });
+
+      marker.addListener("click", () => {
+        setSelectedBuilding(building);
+        setSelectedCat(null);
+      });
+
+      markersRef.current.push(marker);
+    });
+  }, [map, selectedCat, selectedBuilding, currentZoom]);
+
+  if (!GOOGLE_MAPS_API_KEY) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-100">
-        <div className="text-gray-600 font-medium">Loading campus map...</div>
+      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+          <div className="text-red-500 text-xl mb-4">⚠️ API Key Missing</div>
+          <div className="text-gray-700">
+            Please add <code className="bg-gray-100 px-2 py-1 rounded">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> to your <code className="bg-gray-100 px-2 py-1 rounded">.env.local</code> file
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoaded) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-center">
+          <div className="text-2xl mb-4">🐱</div>
+          <div className="text-gray-600 font-medium">Loading campus map...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <LoadScript
-      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-      libraries={libraries}
-      onLoad={() => setIsScriptLoaded(true)}
-    >
-      <GoogleMap
-        mapContainerStyle={{ width: "100%", height: "100%" }}
-        center={center}
-        zoom={16}
-        options={mapOptions}
-        onLoad={onLoad}
-        onZoomChanged={handleZoomChanged}
-        onClick={closeInfoWindows}
-      >
-        {/* === Buildings === */}
-        {visibleBuildings.map((building) => {
-          const isActive = activeBuildingId === building.id;
-          return (
-            <Marker
-              key={building.id}
-              position={{ lat: building.lat, lng: building.lng }}
-              icon={buildingIcon}
-              title={building.name}
-              label={
-                currentZoom >= 17
-                  ? {
-                      text: building.abbr,
-                      color: "#ffffff",
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                    }
-                  : undefined
-              }
-              onClick={() => {
-                setActiveBuildingId(building.id);
-                setActiveCatId(null);
-                onBuildingClick(building);
-              }}
-            >
-              {isActive && (
-                <InfoWindow
-                  position={{ lat: building.lat + 0.00045, lng: building.lng }}
-                  onCloseClick={closeInfoWindows}
-                >
-                  <div className="p-3 max-w-xs">
-                    <div className="flex items-center gap-2 mb-1">
-                      <i className="fas fa-building text-[#E2C3A7] text-lg"></i>
-                      <div className="font-bold text-[#E2C3A7] text-base">
-                        {building.name}
-                      </div>
-                    </div>
-                    <div className="text-gray-600 text-sm flex items-center gap-1">
-                      <i className="fas fa-map-marker-alt text-gray-400"></i>
-                      <span>{building.abbr} • UTA Campus</span>
-                    </div>
-                  </div>
-                </InfoWindow>
-              )}
-            </Marker>
-          );
-        })}
-
-        {/* === Cats === */}
-        {campusCats.map((cat) => {
-          const isActive = activeCatId === cat.id;
-          return (
-            <Marker
-              key={cat.id}
-              position={{ lat: cat.lat, lng: cat.lng }}
-              icon={catIcon}
-              animation={
-                isActive && window.google?.maps?.Animation
-                  ? window.google.maps.Animation.BOUNCE
-                  : undefined
-              }
-              label={{
-                text: cat.name,
-                color: "#ffffff",
-                fontSize: "11px",
-                fontWeight: "bold",
-              }}
-              onClick={() => {
-                setActiveCatId(cat.id);
-                setActiveBuildingId(null);
-                onCatClick(cat);
-              }}
-            >
-              {isActive && (
-                <InfoWindow
-                  position={{ lat: cat.lat + 0.00045, lng: cat.lng }}
-                  onCloseClick={closeInfoWindows}
-                >
-                  <div className="p-3 max-w-xs">
-                    <div className="flex items-center gap-2 mb-1">
-                      <i className="fas fa-cat text-[#E2C3A7] text-lg"></i>
-                      <div className="font-bold text-[#E2C3A7] text-base">
-                        {cat.name}
-                      </div>
-                    </div>
-                    <div className="text-gray-700 text-sm mb-1">{cat.color}</div>
-                    <div className="text-gray-600 text-xs italic">
-                      {cat.activity}
-                    </div>
-                    <div className="mt-2 text-xs text-[#E2C3A7] font-semibold cursor-pointer hover:underline">
-                      Click for full profile
-                    </div>
-                  </div>
-                </InfoWindow>
-              )}
-            </Marker>
-          );
-        })}
-      </GoogleMap>
-    </LoadScript>
+    <div className="w-full h-screen relative">
+      <div ref={mapRef} className="w-full h-full" />
+      
+      {/* Info Panel */}
+      {(selectedCat || selectedBuilding) && (
+        <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-4 max-w-sm z-10">
+          <button
+            onClick={() => {
+              setSelectedCat(null);
+              setSelectedBuilding(null);
+            }}
+            className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+          >
+            ✕
+          </button>
+          
+          {selectedCat && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl">🐱</span>
+                <h3 className="text-xl font-bold text-[#E2C3A7]">{selectedCat.name}</h3>
+              </div>
+              <div className="text-gray-700 mb-1">
+                <strong>Color:</strong> {selectedCat.color}
+              </div>
+              <div className="text-gray-600 text-sm italic">
+                {selectedCat.activity}
+              </div>
+            </div>
+          )}
+          
+          {selectedBuilding && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl">🏢</span>
+                <h3 className="text-xl font-bold text-[#E2C3A7]">{selectedBuilding.name}</h3>
+              </div>
+              <div className="text-gray-600 text-sm">
+                {selectedBuilding.abbr} • UTA Campus
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Legend */}
+      <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg p-3 z-10">
+        <div className="text-xs font-bold mb-2 text-gray-700">Legend</div>
+        <div className="flex items-center gap-2 mb-1 text-xs">
+          <span>🐱</span>
+          <span className="text-gray-600">Campus Cats</span>
+        </div>
+        <div className="flex items-center gap-2 text-xs">
+          <span>🏢</span>
+          <span className="text-gray-600">Buildings</span>
+        </div>
+      </div>
+    </div>
   );
 };
 

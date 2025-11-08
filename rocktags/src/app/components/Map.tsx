@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from "@react-google-maps/api";
-import type { Cat, Building, MapOptionsShape } from "../main/map/types";
+import type { Cat, Building, MapOptionsShape } from "./types";
 
 // Custom map style with your theme colors
 const mapStyles = [
