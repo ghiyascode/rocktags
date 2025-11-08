@@ -1,5 +1,5 @@
 // app/signin/page.tsx
-import { SignInForm } from "@/app/components/components_landing_page/signin-form";
+import { SignInForm } from "@/app/components/Landing_page_components/signin-form";
 
 export default function SignInPage() {
   return (
