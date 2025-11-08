@@ -41,8 +41,6 @@ const catSvg = (name: string) => encodeURIComponent(`
     </linearGradient>
   </defs>
 
-  <!-- Background circle -->
-  <circle cx="25" cy="29" r="24" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.8" filter="url(#glow)"/>
 
   <!-- Ears -->
   <path d="M13 13 L10 6 L16 11 Z" fill="#E2C3A7" stroke="#4E2A17" stroke-width="1.2"/>
@@ -197,15 +195,40 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
             title: `${cat.name} – ${cat.activity}`,
           });
 
-          const info = new window.google.maps.InfoWindow({
-            content: `<div style="padding:14px; font-family:system-ui; min-width:170px; background:#fff; border-radius:10px; box-shadow:0 3px 12px rgba(0,0,0,0.15);">
-              <strong style="color:#4E2A17; font-size:15px;">${cat.name}</strong><br>
-              <em style="color:#8B6F47; font-size:13px;">${cat.color}</em><br>
-              <span style="color:#6B4E31; font-size:12px;">${cat.activity} • ${cat.favSpot}</span>
-            </div>`,
-            pixelOffset: new google.maps.Size(0, -50),
-          });
+       const info = new window.google.maps.InfoWindow({
+  content: `
+    <div style="
+      position: relative;
+      padding: 10px 12px;
+      font-family: system-ui, sans-serif;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      min-width: 150px;
+      font-size: 13px;
+      line-height: 1.4;
+    ">
+      <strong style="color:#4E2A17; font-size:14px; display:block;">${cat.name}</strong>
+      <em style="color:#8B6F47; font-size:12px; display:block;">${cat.color}</em>
+      <span style="color:#6B4E31; font-size:11px;">${cat.activity} • ${cat.favSpot}</span>
 
+      <!-- Arrow pointing down to cat -->
+      <div style="
+        position: absolute;
+        bottom: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #fff;
+      "></div>
+    </div>
+  `,
+  pixelOffset: new google.maps.Size(0, -64), // Tighter: just above the 58px pin
+  disableAutoPan: true,
+});
           marker.addListener("mouseover", () => info.open(map, marker));
           marker.addListener("mouseout", () => info.close());
           marker.addListener("click", () => {
