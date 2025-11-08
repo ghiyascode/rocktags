@@ -40,9 +40,12 @@ export default function MapPage() {
   return (
     <div className="min-h-screen bg-[#FFFCF4] flex flex-col">
       
-      <Navbar />
+      <div className="mb-[80px] font-poppins text-white">
+    <Navbar />
+      </div>
+      
 
-      <main className="flex-1 container mx-auto px-6 py-8 my-6">
+      <main className="flex-1 container mx-auto px-6 py-8 ">
         <div className="bg-white rounded-2xl shadow-lg p-6">
           <div className="h-[72vh] rounded-xl overflow-hidden border-2 border-[#E2C3A7]/20">
             {/* Pass data to map */}
@@ -51,7 +54,10 @@ export default function MapPage() {
         </div>
       </main>
 
-      <Footer />
+ <div className="mt-[40px] text-white">
+    <Footer />
+      </div>
+     
     </div>
   );
 }
