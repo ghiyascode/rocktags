@@ -283,11 +283,34 @@ useEffect(() => {
     <div className="relative w-full h-full">
       <div ref={mapDiv} className="w-full h-full rounded-xl" />
 
-      {/* LEGEND */}
-      <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur rounded-lg shadow-lg p-3 text-xs font-medium text-gray-700">
-        <div className="flex items-center gap-2 mb-1">Oval Cat Pin Campus Cats</div>
-        <div className="flex items-center gap-2">Building Pin Buildings</div>
-      </div>
+     {/* LEGEND – REUSE catSvg & buildingSvg */}
+<div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur rounded-lg shadow-lg p-3 text-xs font-medium text-gray-700 space-y-1">
+  {/* CAT ICON */}
+  <div className="flex items-center gap-2">
+    <div
+      className="w-6 h-6"
+      dangerouslySetInnerHTML={{
+        __html: decodeURIComponent(catSvg("")) // "" → no name
+          .replace(/width="50".*?height="58"/, 'width="24" height="28"')
+          .replace(/<text.*?<\/text>/, ''), // Remove name text
+      }}
+    />
+    <span>Campus Cats</span>
+  </div>
+
+  {/* BUILDING ICON */}
+  <div className="flex items-center gap-2">
+    <div
+      className="w-5 h-6"
+      dangerouslySetInnerHTML={{
+        __html: decodeURIComponent(buildingSvg("B")) // dummy "B"
+          .replace(/width="40".*?height="50"/, 'width="20" height="25"')
+          .replace(/<text.*?<\/text>/, ''), // Remove text
+      }}
+    />
+    <span>Buildings</span>
+  </div>
+</div>
 
       {/* MODAL */}
       {selectedCat && <CatProfileModal cat={selectedCat} onClose={() => setSelectedCat(null)} />}
