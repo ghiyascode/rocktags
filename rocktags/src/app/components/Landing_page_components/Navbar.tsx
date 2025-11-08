@@ -7,7 +7,7 @@ import { faMapMarkedAlt, faInfoCircle, faUsers } from "@fortawesome/free-solid-s
 
 export function Navbar() {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 bg-[#4E2A17]/95 backdrop-blur-md border-b border-white/10">
+    <nav className="py-5 fixed inset-x-0 top-0 z-50 bg-[#4E2A17]/95 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="flex items-center space-x-2">
@@ -15,7 +15,7 @@ export function Navbar() {
             <Cat className="w-8 h-8 text-white animate-pulse" />
             <Sparkles className="w-4 h-4 text-yellow-400 absolute -top-1 -right-1" />
           </div>
-          <span className="text-2xl font-bold font-['Poppins'] tracking-tight">Meovrick</span>
+          <span className="text-4xl font-bold font-['Poppins'] tracking-tight">Meowvrick</span>
         </div>
 
         {/* Desktop Links */}
