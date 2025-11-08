@@ -1,5 +1,5 @@
 // app/signup/page.tsx
-import { SignUpForm } from "@/components/signup-form";
+import { SignUpForm } from "@/app/components/components_landing_page/signup-form";
 
 // Must be a default export AND a React component
 export default function SignUpPage() {

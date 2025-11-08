@@ -3,9 +3,12 @@
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import type { Cat, Building } from "../../components/types";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+
+
 import CatProfileModal from "@/app/components/CatProfileModal";
+import { Footer } from "@/app/components/components_landing_page/Footer";
+import { Navbar } from "@/app/components/components_landing_page/Navbar";
+
 
 // Sample data
 const campusCats: Cat[] = [

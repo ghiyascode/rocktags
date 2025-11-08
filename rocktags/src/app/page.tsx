@@ -1,11 +1,11 @@
 'use client';
 
 
-import { HeroCarousel } from "@/components/HeroCarousel";
-import { InfoSection } from "@/components/InfoSection";
-import { HowToUse } from "@/components/HowToUse";
-import { Footer } from "@/components/Footer";
-import {Navbar} from "@/components/Navbar";
+import { HeroCarousel } from "@/app/components/components_landing_page/HeroCarousel";
+import { InfoSection } from "@/app/components/components_landing_page/InfoSection";
+import { HowToUse } from "@/app/components/components_landing_page/HowToUse";
+import { Footer } from "@/app/components/components_landing_page/Footer";
+import {Navbar} from "@/app/components/components_landing_page/Navbar";
 
 export default function Home() {
   return (
