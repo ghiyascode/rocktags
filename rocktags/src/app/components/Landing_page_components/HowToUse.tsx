@@ -40,7 +40,7 @@ function StepCard({ step }: StepCardProps) {
   return (
     <div className="w-80 mx-auto">
       <article className="
-        relative bg-white/10 backdrop-blur-md
+        relative bg-white backdrop-blur-md
         border-2 border-[#E2C3A7]/40 rounded-2xl
         p-7 shadow-[0_0_20px_rgba(226,195,167,0.25)]
         h-full transition-all duration-300
@@ -84,14 +84,14 @@ function StepCard({ step }: StepCardProps) {
 export function HowToUse() {
   return (
     <section
-      className="py-16 px-4 bg-gradient-to-b from-transparent to-white/5"
+      className="py-16 bg-[#847570] px-4 bg-gradient-to-b from-transparent to-white/5"
       aria-labelledby="how-to-use-heading"
     >
       <div className="max-w-[1100px] mx-auto">
         <header className="text-center mb-14">
           <h2
             id="how-to-use-heading"
-            className="text-4xl sm:text-5xl font-bold font-heading text-white mb-5 tracking-tight"
+            className="text-4xl sm:text-5xl font-bold font-heading !text-[#E2C3A7] mb-5 tracking-tight"
           >
             How to Use Meowvrick
           </h2>
@@ -99,10 +99,10 @@ export function HowToUse() {
         </header>
 
         {/* DESKTOP: Tight Horizontal Flow */}
-        <div className="hidden md:flex items-center justify-center gap-6">
+        <div className="hidden  md:flex items-center justify-center gap-6">
           {STEPS.map((step, index) => (
             <div key={step.step} className="flex items-center">
-              <StepCard step={step} />
+              <StepCard  step={step} />
               {index < STEPS.length - 1 && (
                 <svg
                   width="40"
