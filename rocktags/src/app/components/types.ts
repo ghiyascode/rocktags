@@ -3,6 +3,9 @@
 
 export type LatLng = { lat: number; lng: number };
 
+/**
+ * Core cat data – everything that exists in the original map.
+ */
 export type Cat = {
   id: number;
   name: string;
@@ -17,6 +20,21 @@ export type Cat = {
   bio: string;
   sightings: number;
   bestTime: string;
+
+  /* --------------------------------------------------------------
+     NEW OPTIONAL fields used only by the profile modal
+     -------------------------------------------------------------- */
+  /** URL of the cat’s main portrait (fallback handled in UI) */
+  profileImage?: string;
+
+  /** List of personality-trait strings (e.g. ["playful", "cuddly"]) */
+  traits?: string[];
+
+  /** Where the cat loves to be rubbed – shown only if present */
+  favoriteRubbingPlace?: string;
+
+  /** Gallery images – array of URLs */
+  gallery?: string[];
 };
 
 export type Building = {
@@ -56,7 +74,6 @@ export type Buildings = Building[];
 
 // Example defaults (handy for quick imports)
 export const defaultCenter: LatLng = { lat: 32.7318, lng: -97.1115 };
-
 
 /*
 

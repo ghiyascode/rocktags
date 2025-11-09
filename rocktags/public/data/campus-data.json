@@ -13,7 +13,16 @@
       "favSpot": "UC",
       "bio": "Famous campus cat, loves chin scratches and sunbathing.",
       "sightings": 156,
-      "bestTime": "Noon"
+      "bestTime": "Noon",
+      "profileImage": "/image/catimage.jpg",
+      "gallery": [
+        "/image/catimage.jpg",
+        "/image/catimage.jpg",
+        "/image/catimage.jpg",
+        "/image/catimage.jpg"
+      ],
+      "favoriteRubbingPlace": "Under the chin",
+      "traits": ["Sun-lover", "Treat-motivated", "Social"]
     },
     {
       "id": 2,
@@ -28,7 +37,14 @@
       "favSpot": "Library",
       "bio": "Ancient sage of the library. Reads minds.",
       "sightings": 89,
-      "bestTime": "Morning"
+      "bestTime": "Morning",
+      "profileImage": "",
+      "gallery": [
+        "",
+        ""
+      ],
+      "favoriteRubbingPlace": "Behind the ears",
+      "traits": ["Philosopher", "Quiet", "Observer"]
     },
     {
       "id": 3,
@@ -43,7 +59,15 @@
       "favSpot": "Engineering Quad",
       "bio": "Loves laser pointers and engineering students.",
       "sightings": 201,
-      "bestTime": "Afternoon"
+      "bestTime": "Afternoon",
+      "profileImage": "",
+      "gallery": [
+        "",
+        "",
+        ""
+      ],
+      "favoriteRubbingPlace": "Belly (when in the mood)",
+      "traits": ["Energetic", "Curious", "Laser-addict"]
     },
     {
       "id": 4,
@@ -58,7 +82,14 @@
       "favSpot": "Student Center",
       "bio": "Campus supermodel. Always camera-ready.",
       "sightings": 134,
-      "bestTime": "Evening"
+      "bestTime": "Evening",
+      "profileImage": "",
+      "gallery": [
+        "",
+        ""
+      ],
+      "favoriteRubbingPlace": "Along the spine",
+      "traits": ["Photogenic", "Graceful", "Affectionate"]
     },
     {
       "id": 5,
@@ -73,7 +104,15 @@
       "favSpot": "Maverick Stadium",
       "bio": "Sleeps 22 hours a day. Professional napper.",
       "sightings": 98,
-      "bestTime": "All day"
+      "bestTime": "All day",
+      "profileImage": "",
+      "gallery": [
+        "",
+        "",
+        ""
+      ],
+      "favoriteRubbingPlace": "Cheeks",
+      "traits": ["Sleepyhead", "Cuddly", "Low-energy"]
     }
   ],
   "buildings": [

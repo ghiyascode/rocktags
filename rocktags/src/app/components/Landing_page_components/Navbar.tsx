@@ -23,10 +23,7 @@ export function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8">
-          <Link href="/maps" className="flex items-center space-x-2 hover:text-yellow-400 transition-all duration-300 hover:scale-105">
-            <FontAwesomeIcon icon={faMapMarkedAlt} className="w-5 h-5" />
-            <span className="font-medium">Maps</span>
-          </Link>
+          
           <Link href="/about" className="flex items-center space-x-2 hover:text-yellow-400 transition-all duration-300 hover:scale-105">
             <FontAwesomeIcon icon={faInfoCircle} className="w-5 h-5" />
             <span className="font-medium">About</span>
