@@ -220,85 +220,174 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
             title: `${cat.name} – ${cat.activity}`,
           });
 
-          // Build info window HTML safely
+          // Build info window HTML with custom tail
           const activityHTML = highlightText(cat.activity);
           const favSpotHTML = highlightText(cat.favSpot);
 
+          // const infoContent = `
+          //   <div style="position: relative; padding-bottom: 12px;">
+          //     <div style="
+          //       padding:14px 16px;
+          //       font-family:system-ui,-apple-system,sans-serif;
+          //       background:linear-gradient(135deg, #FFFCF4 0%, #4E2A17  100%);
+          //       border-radius:12px;
+          //       box-shadow:0 4px 16px rgba(78,42,23,0.2);
+          //       border:2px solid #4E2A17 ;
+          //       min-width:200px;
+          //       max-width:260px;
+          //       font-size:14px;
+          //       line-height:1.5;
+          //       word-wrap:break-word;
+          //       position: relative;
+          //     ">
+          //       <strong style="
+          //         color:#4E2A17;
+          //         font-size:17px;
+          //         display:block;
+          //         margin-bottom:4px;
+          //         white-space:normal;
+          //       ">${cat.name}</strong>
+
+          //       <em style="
+          //         color:#847570;
+          //         font-size:13px;
+          //         display:block;
+          //         margin-bottom:6px;
+          //         white-space:normal;
+          //         background:#FFFCF4;
+          //         padding:3px 7px;
+          //         border-radius:6px;
+          //         display:inline-block;
+          //       ">${cat.color}</em>
+
+          //       <span style="
+          //         color:#4E2A17;
+          //         font-size:12px;
+          //         display:block;
+          //         white-space:normal;
+          //         line-height:1.5;
+          //         margin-top:6px;
+          //       ">
+          //         ${activityHTML} • ${favSpotHTML}
+          //       </span>
+          //     </div>
+          //     <!-- Custom tail pointer -->
+          //     <div style="
+          //       position: absolute;
+          //       bottom: 0;
+          //       left: 50%;
+          //       transform: translateX(-50%);
+          //       width: 0;
+          //       height: 0;
+          //       border-left: 10px solid transparent;
+          //       border-right: 10px solid transparent;
+          //       border-top: 12px solid #4E2A17 ;
+          //     "></div>
+          //   </div>
+          // `;
           const infoContent = `
-            <div style="
-              padding:14px 16px;
-              font-family:system-ui,-apple-system,sans-serif;
-              background:linear-gradient(135deg, #FFFCF4 0%, #E2C3A7 100%);
-              border-radius:12px;
-              box-shadow:0 4px 16px rgba(78,42,23,0.2);
-              border:2px solid #D6C9C8;
-              min-width:200px;
-              max-width:260px;
-              font-size:14px;
-              line-height:1.5;
-              word-wrap:break-word;
-            ">
-              <strong style="
-                color:#4E2A17;
-                font-size:17px;
-                display:block;
-                margin-bottom:4px;
-                white-space:normal;
-              ">${cat.name}</strong>
+  <div style="position: relative; padding-bottom: 12px;">
+    <div style="
+      padding:14px 16px;
+      font-family:'Poppins', 'Roboto', system-ui, -apple-system, sans-serif;
+      background:#847570;
+      border-radius:12px;
+      box-shadow:0 4px 16px rgba(132, 117, 112, 0.3);
+      border:2px solid #847570;
+      min-width:200px;
+      max-width:260px;
+      font-size:14px;
+      line-height:1.5;
+      word-wrap:break-word;
+      position: relative;
+    ">
+      <strong style="
+        color:#FFFCF4;
+        font-size:17px;
+        display:block;
+        margin-bottom:4px;
+        white-space:normal;
+        font-family:'Poppins', sans-serif;
+      ">${cat.name}</strong>
 
-              <em style="
-                color:#847570;
-                font-size:13px;
-                display:block;
-                margin-bottom:6px;
-                white-space:normal;
-                background:#FFFCF4;
-                padding:3px 7px;
-                border-radius:6px;
-                display:inline-block;
-              ">${cat.color}</em>
+      <em style="
+        color:#FFFCF4;
+        font-size:13px;
+        display:block;
+        margin-bottom:6px;
+        white-space:normal;
+        background:rgba(255, 252, 244, 0.15);
+        padding:3px 7px;
+        border-radius:6px;
+        display:inline-block;
+        font-family:'Roboto', sans-serif;
+      ">${cat.color}</em>
 
-              <span style="
-                color:#4E2A17;
-                font-size:12px;
-                display:block;
-                white-space:normal;
-                line-height:1.5;
-                margin-top:6px;
-              ">
-                ${activityHTML} • ${favSpotHTML}
-              </span>
-            </div>
-          `;
-
+      <span style="
+        color:#FFFCF4;
+        font-size:12px;
+        display:block;
+        white-space:normal;
+        line-height:1.5;
+        margin-top:6px;
+        font-family:'Roboto', sans-serif;
+      ">
+        ${activityHTML} • ${favSpotHTML}
+      </span>
+    </div>
+    <!-- Custom tail pointer -->
+    <div style="
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 12px solid #847570;
+    "></div>
+  </div>
+`;
           const info = new google.maps.InfoWindow({
             content: infoContent,
-            pixelOffset: new google.maps.Size(0, -5),
+            pixelOffset: new google.maps.Size(0,-1),
             disableAutoPan: true,
           });
 
-          // Remove default InfoWindow styling
+          // Remove default InfoWindow styling including border and tail
           google.maps.event.addListener(info, 'domready', () => {
             const iwOuter = document.querySelector('.gm-style-iw-c');
             const iwBackground = document.querySelector('.gm-style-iw-d');
             const iwCloseBtn = document.querySelector('.gm-ui-hover-effect');
+            const iwTip = document.querySelector('.gm-style-iw-tc');
             
             if (iwOuter) {
               (iwOuter as HTMLElement).style.padding = '0';
               (iwOuter as HTMLElement).style.background = 'transparent';
               (iwOuter as HTMLElement).style.boxShadow = 'none';
-              (iwOuter as HTMLElement).style.borderRadius = '12px';
+              (iwOuter as HTMLElement).style.borderRadius = '0';
               (iwOuter as HTMLElement).style.overflow = 'visible';
+              (iwOuter as HTMLElement).style.border = 'none';
+              (iwOuter as HTMLElement).style.outline = 'none';
             }
             if (iwBackground) {
               (iwBackground as HTMLElement).style.overflow = 'visible';
+              (iwBackground as HTMLElement).style.boxShadow = 'none';
             }
             if (iwCloseBtn) {
-              (iwCloseBtn as HTMLElement).style.top = '8px';
-              (iwCloseBtn as HTMLElement).style.right = '8px';
-              (iwCloseBtn as HTMLElement).style.width = '24px';
-              (iwCloseBtn as HTMLElement).style.height = '24px';
-              (iwCloseBtn as HTMLElement).style.opacity = '0.8';
+              (iwCloseBtn as HTMLElement).style.display = 'none';
+            }
+            // Hide default tail
+            if (iwTip) {
+              (iwTip as HTMLElement).style.display = 'none';
+            }
+            
+            // Remove any parent container borders
+            const iwContainer = document.querySelector('.gm-style-iw');
+            if (iwContainer) {
+              (iwContainer as HTMLElement).style.border = 'none';
+              (iwContainer as HTMLElement).style.outline = 'none';
             }
           });
 
