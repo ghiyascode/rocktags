@@ -39,20 +39,20 @@ const catSvg = (name: string) => encodeURIComponent(`
       <stop offset="100%" style="stop-color:#BFB3B1;stop-opacity:1"/>
     </linearGradient>
   </defs>
-  <!-- Pointy ears with inner ear detail -->
+  <!-- Ears -->
   <path d="M12 18 L8 8 L18 16 Z" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.2"/>
   <path d="M38 18 L42 8 L32 16 Z" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.2"/>
   <path d="M11 15 L9.5 11 L14 14 Z" fill="#E8B5B8" opacity="0.5"/>
   <path d="M39 15 L40.5 11 L36 14 Z" fill="#E8B5B8" opacity="0.5"/>
   
-  <!-- Head - more oval/rounded -->
+  <!-- Head -->
   <ellipse cx="25" cy="28" rx="14" ry="16" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.3"/>
   
   <!-- Cheek fluff -->
   <ellipse cx="14" cy="32" rx="5" ry="4" fill="#D6C9C8" opacity="0.8"/>
   <ellipse cx="36" cy="32" rx="5" ry="4" fill="#D6C9C8" opacity="0.8"/>
   
-  <!-- Eyes - larger and more expressive -->
+  <!-- Eyes -->
   <ellipse cx="19" cy="26" rx="4" ry="4.5" fill="white"/>
   <ellipse cx="31" cy="26" rx="4" ry="4.5" fill="white"/>
   <ellipse cx="19.5" cy="26" rx="2.2" ry="3" fill="#4E2A17"/>
@@ -60,17 +60,14 @@ const catSvg = (name: string) => encodeURIComponent(`
   <circle cx="18.5" cy="24.5" r="0.8" fill="white" opacity="0.9"/>
   <circle cx="30.5" cy="24.5" r="0.8" fill="white" opacity="0.9"/>
   
-  <!-- Nose - triangle -->
+  <!-- Nose & Mouth -->
   <path d="M25 31 L23 33 L27 33 Z" fill="#4E2A17"/>
-  
-  <!-- Mouth -->
   <path d="M25 33 L25 35 M25 35 Q23 36 21 36 M25 35 Q27 36 29 36" fill="none" stroke="#4E2A17" stroke-width="1" stroke-linecap="round"/>
   
-  <!-- Whiskers - longer and more curved -->
+  <!-- Whiskers -->
   <path d="M12 27 Q6 26 2 25 M12 29 Q6 29 2 29 M12 31 Q6 32 2 34" stroke="#4E2A17" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
   <path d="M38 27 Q44 26 48 25 M38 29 Q44 29 48 29 M38 31 Q44 32 48 34" stroke="#4E2A17" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
   
-
   <text x="25" y="56" font-family="system-ui" font-size="8.5" text-anchor="middle" fill="#4E2A17" font-weight="bold">${name}</text>
 </svg>
 `);
@@ -82,54 +79,33 @@ const buildingSvg = (abbr: string) => encodeURIComponent(`
       <stop offset="0%" style="stop-color:#847570;stop-opacity:1"/>
       <stop offset="100%" style="stop-color:#6B5D59;stop-opacity:1"/>
     </linearGradient>
-    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#5C4E4A;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#4A3D39;stop-opacity:1"/>
-    </linearGradient>
   </defs>
   
-  <!-- Main building body -->
+  <!-- Building body -->
   <rect x="8" y="12" width="24" height="28" rx="1" fill="url(#buildGrad)" stroke="#3A2E2B" stroke-width="1.5"/>
   
- 
-  
-  <!-- Top floor windows -->
+  <!-- Windows -->
   <rect x="11" y="15" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
   <rect x="24" y="15" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
-  <line x1="13.5" y1="15" x2="13.5" y2="20" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="11" y1="17.5" x2="16" y2="17.5" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="26.5" y1="15" x2="26.5" y2="20" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="24" y1="17.5" x2="29" y2="17.5" stroke="#3A2E2B" stroke-width="0.5"/>
-  
-  <!-- Middle floor windows -->
   <rect x="11" y="23" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
   <rect x="24" y="23" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
-  <line x1="13.5" y1="23" x2="13.5" y2="28" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="11" y1="25.5" x2="16" y2="25.5" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="26.5" y1="23" x2="26.5" y2="28" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="24" y1="25.5" x2="29" y2="25.5" stroke="#3A2E2B" stroke-width="0.5"/>
-  
-  <!-- Center bottom window -->
   <rect x="17.5" y="31" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
-  <line x1="20" y1="31" x2="20" y2="36" stroke="#3A2E2B" stroke-width="0.5"/>
-  <line x1="17.5" y1="33.5" x2="22.5" y2="33.5" stroke="#3A2E2B" stroke-width="0.5"/>
   
-  <!-- Door with arch -->
+  <!-- Door -->
   <rect x="16" y="34" width="8" height="6" fill="#5C4E4A" stroke="#3A2E2B" stroke-width="1"/>
   <path d="M16 34 Q20 32.5 24 34" fill="#5C4E4A" stroke="#3A2E2B" stroke-width="1"/>
   <circle cx="22.5" cy="36.5" r="0.6" fill="#C9A882"/>
   
-  <!-- Building details - floor separators -->
+  <!-- Floor lines -->
   <rect x="8" y="16" width="24" height="0.5" fill="#6B5D59" opacity="0.4"/>
   <rect x="8" y="24" width="24" height="0.5" fill="#6B5D59" opacity="0.4"/>
   <rect x="8" y="32" width="24" height="0.5" fill="#6B5D59" opacity="0.4"/>
   
-  <!-- Abbreviation text -->
   <text x="20" y="47" font-family="system-ui" font-size="7" text-anchor="middle" fill="#3A2E2B" font-weight="bold">${abbr}</text>
 </svg>
 `);
 
-/* ---------- LEGEND ICONS (REUSABLE) ---------- */
+/* ---------- LEGEND ICONS ---------- */
 const CatLegendIcon = () => (
   <div
     className="w-6 h-6"
@@ -152,6 +128,20 @@ const BuildingLegendIcon = () => (
   />
 );
 
+/* ---------- HELPER: Style "Microwave" and "UC" ---------- */
+const highlightText = (text: string): string => {
+  return text
+    .split(/(\s+|\u2022\s*)/) // Split on spaces and bullets
+    .map(part => {
+      const trimmed = part.trim();
+      if (trimmed === "Microwave" || trimmed === "UC") {
+        return `<strong style="font-weight:700; font-size:13px;">${trimmed}</strong>`;
+      }
+      return part;
+    })
+    .join("");
+};
+
 export default function MapWithEverything({ cats, buildings, onCatClick }: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -159,7 +149,7 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
   const [zoom, setZoom] = useState(16);
   const markersRef = useRef<google.maps.Marker[]>([]);
 
-  /* ---------- INIT MAP (waits for script from layout.tsx) ---------- */
+  /* ---------- INIT MAP ---------- */
   useEffect(() => {
     if (!window.google?.maps || !mapRef.current) return;
 
@@ -218,6 +208,7 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
 
         if (item.type === 'cat') {
           const cat = item.data as Cat;
+
           const marker = new google.maps.Marker({
             position,
             map,
@@ -229,16 +220,86 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
             title: `${cat.name} – ${cat.activity}`,
           });
 
+          // Build info window HTML safely
+          const activityHTML = highlightText(cat.activity);
+          const favSpotHTML = highlightText(cat.favSpot);
+
+          const infoContent = `
+            <div style="
+              padding:14px 16px;
+              font-family:system-ui,-apple-system,sans-serif;
+              background:linear-gradient(135deg, #FFFCF4 0%, #E2C3A7 100%);
+              border-radius:12px;
+              box-shadow:0 4px 16px rgba(78,42,23,0.2);
+              border:2px solid #D6C9C8;
+              min-width:200px;
+              max-width:260px;
+              font-size:14px;
+              line-height:1.5;
+              word-wrap:break-word;
+            ">
+              <strong style="
+                color:#4E2A17;
+                font-size:17px;
+                display:block;
+                margin-bottom:4px;
+                white-space:normal;
+              ">${cat.name}</strong>
+
+              <em style="
+                color:#847570;
+                font-size:13px;
+                display:block;
+                margin-bottom:6px;
+                white-space:normal;
+                background:#FFFCF4;
+                padding:3px 7px;
+                border-radius:6px;
+                display:inline-block;
+              ">${cat.color}</em>
+
+              <span style="
+                color:#4E2A17;
+                font-size:12px;
+                display:block;
+                white-space:normal;
+                line-height:1.5;
+                margin-top:6px;
+              ">
+                ${activityHTML} • ${favSpotHTML}
+              </span>
+            </div>
+          `;
+
           const info = new google.maps.InfoWindow({
-            content: `
-              <div style="padding:10px 12px; font-family:system-ui; background:#fff; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15); min-width:150px; font-size:13px; line-height:1.4;">
-                <strong style="color:#4E2A17; font-size:14px;">${cat.name}</strong>
-                <em style="color:#8B6F47; font-size:12px; display:block;">${cat.color}</em>
-                <span style="color:#6B4E31; font-size:11px;">${cat.activity} • ${cat.favSpot}</span>
-              </div>
-            `,
-            pixelOffset: new google.maps.Size(0, -64),
+            content: infoContent,
+            pixelOffset: new google.maps.Size(0, -5),
             disableAutoPan: true,
+          });
+
+          // Remove default InfoWindow styling
+          google.maps.event.addListener(info, 'domready', () => {
+            const iwOuter = document.querySelector('.gm-style-iw-c');
+            const iwBackground = document.querySelector('.gm-style-iw-d');
+            const iwCloseBtn = document.querySelector('.gm-ui-hover-effect');
+            
+            if (iwOuter) {
+              (iwOuter as HTMLElement).style.padding = '0';
+              (iwOuter as HTMLElement).style.background = 'transparent';
+              (iwOuter as HTMLElement).style.boxShadow = 'none';
+              (iwOuter as HTMLElement).style.borderRadius = '12px';
+              (iwOuter as HTMLElement).style.overflow = 'visible';
+            }
+            if (iwBackground) {
+              (iwBackground as HTMLElement).style.overflow = 'visible';
+            }
+            if (iwCloseBtn) {
+              (iwCloseBtn as HTMLElement).style.top = '8px';
+              (iwCloseBtn as HTMLElement).style.right = '8px';
+              (iwCloseBtn as HTMLElement).style.width = '24px';
+              (iwCloseBtn as HTMLElement).style.height = '24px';
+              (iwCloseBtn as HTMLElement).style.opacity = '0.8';
+            }
           });
 
           marker.addListener("mouseover", () => info.open(map, marker));
@@ -274,12 +335,12 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
       <div ref={mapRef} className="w-full h-full rounded-xl" />
 
       {/* LEGEND */}
-      <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur rounded-lg shadow-lg p-3 text-xs font-medium text-gray-700 space-y-1">
-        <div className="flex items-center gap-2">
+      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-3.5 text-sm font-medium text-gray-800 space-y-2 border border-gray-100">
+        <div className="flex items-center gap-2.5">
           <CatLegendIcon />
           <span>Campus Cats</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <BuildingLegendIcon />
           <span>Buildings</span>
         </div>
