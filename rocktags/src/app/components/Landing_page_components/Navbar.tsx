@@ -7,16 +7,16 @@ import { faMapMarkedAlt, faInfoCircle, faUsers } from "@fortawesome/free-solid-s
 
 export function Navbar() {
   return (
-    <nav className="py-5 fixed inset-x-0 top-0 z-50 bg-gradient-to-br from-[#3d1f0f] to-[#2a1508]  backdrop-blur-md border-b border-white/10">
+    <nav className="py-5 fixed inset-x-0 top-0 z-50 bg-gradient-to-br from-[#3d1f0f] to-[#2a1508] backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         
         {/* LOGO – CLICKABLE → HOME PAGE */}
         <Link href="/" className="flex items-center space-x-2 group">
           <div className="relative">
-            <Cat className="w-8 h-8 text-white animate-pulse group-hover:text-yellow-300 transition-colors" />
-            <Sparkles className="w-4 h-4 text-yellow-400 absolute -top-1 -right-1" />
+            <Cat className="w-8 h-8 text-white animate-pulse group-hover:text-[#847570] transition-colors" />
+            <Sparkles className="w-4 h-4 text-[#847570] absolute -top-1 -right-1" />
           </div>
-          <span className="text-4xl font-bold font-['Poppins'] tracking-tight text-white group-hover:text-yellow-300 transition-colors">
+          <span className="text-4xl font-bold font-['Poppins'] tracking-tight text-white group-hover:text-[#847570] transition-colors">
             Meowvrick
           </span>
         </Link>
@@ -24,11 +24,11 @@ export function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8">
           
-          <Link href="/about" className="flex items-center space-x-2 hover:text-yellow-400 transition-all duration-300 hover:scale-105">
+          <Link href="/about" className="flex items-center space-x-2 hover:text-[#847570] transition-all duration-300 hover:scale-105">
             <FontAwesomeIcon icon={faInfoCircle} className="w-5 h-5" />
             <span className="font-medium">About</span>
           </Link>
-          <Link href="/acm" className="flex items-center space-x-2 hover:text-yellow-400 transition-all duration-300 hover:scale-105">
+          <Link href="/acm" className="flex items-center space-x-2 hover:text-[#847570] transition-all duration-300 hover:scale-105">
             <FontAwesomeIcon icon={faUsers} className="w-5 h-5" />
             <span className="font-medium">ACM</span>
           </Link>
