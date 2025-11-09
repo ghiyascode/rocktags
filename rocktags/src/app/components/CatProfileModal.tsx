@@ -80,7 +80,7 @@ export default function CatProfileModal({ cat, onClose }: Props) {
           aria-labelledby={`cat-profile-${cat.id}`}
         >
           {/* Header with Gradient Background */}
-          <div className="relative h-85 bg-gradient-to-br from-[#4E2A17] via-[#6B3D22] to-[#8B5A2B]">
+          <div className="relative h-85 bg-[#4E2A17]">
             {/* Decorative Pattern Overlay */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0" style={{
@@ -102,7 +102,7 @@ export default function CatProfileModal({ cat, onClose }: Props) {
           </div>
 
           {/* Profile Image - Perfect Circle with Elegant Border - Overlapping both sections */}
-          <div className="absolute top-[25px] left-1/2 -translate-x-1/2 z-30">
+          <div className="absolute top-[40px] left-1/2 -translate-x-1/2 z-30">
             <div className="relative">
               {/* Outer glow effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#E2C3A7] to-[#4E2A17] rounded-full blur-xl opacity-40 scale-110" />

@@ -34,20 +34,43 @@ const MAP_STYLES = [
 const catSvg = (name: string) => encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 58" width="50" height="58">
   <defs>
-    <filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#E2C3A7" flood-opacity="0.6"/></filter>
     <linearGradient id="catGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#E2C3A7;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#D4A88C;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#D6C9C8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#BFB3B1;stop-opacity:1"/>
     </linearGradient>
   </defs>
-  <path d="M13 13 L10 6 L16 11 Z M37 13 L40 6 L34 11 Z" fill="#E2C3A7" stroke="#4E2A17" stroke-width="1.2"/>
-  <circle cx="25" cy="29" r="17" fill="#E2C3A7" stroke="#4E2A17" stroke-width="1.3"/>
-  <circle cx="19" cy="27" r="3.5" fill="white"/><circle cx="31" cy="27" r="3.5" fill="white"/>
-  <circle cx="19" cy="27" r="1.8" fill="#4E2A17"/><circle cx="31" cy="27" r="1.8" fill="#4E2A17"/>
-  <path d="M25 32 Q23 34 21 35 Q25 34 29 35" fill="#D4A88C" stroke="#4E2A17" stroke-width="0.7"/>
-  <path d="M21 36 Q25 38 29 36" fill="none" stroke="#4E2A17" stroke-width="1" stroke-linecap="round"/>
-  <path d="M12 29 L6 28 M12 31 L6 31 M12 33 L6 34 M38 29 L44 28 M38 31 L44 31 M38 33 L44 34" stroke="#4E2A17" stroke-width="1" stroke-linecap="round"/>
-  <path d="M37 42 Q42 46 40 52" fill="none" stroke="#E2C3A7" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Pointy ears with inner ear detail -->
+  <path d="M12 18 L8 8 L18 16 Z" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.2"/>
+  <path d="M38 18 L42 8 L32 16 Z" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.2"/>
+  <path d="M11 15 L9.5 11 L14 14 Z" fill="#E8B5B8" opacity="0.5"/>
+  <path d="M39 15 L40.5 11 L36 14 Z" fill="#E8B5B8" opacity="0.5"/>
+  
+  <!-- Head - more oval/rounded -->
+  <ellipse cx="25" cy="28" rx="14" ry="16" fill="url(#catGrad)" stroke="#4E2A17" stroke-width="1.3"/>
+  
+  <!-- Cheek fluff -->
+  <ellipse cx="14" cy="32" rx="5" ry="4" fill="#D6C9C8" opacity="0.8"/>
+  <ellipse cx="36" cy="32" rx="5" ry="4" fill="#D6C9C8" opacity="0.8"/>
+  
+  <!-- Eyes - larger and more expressive -->
+  <ellipse cx="19" cy="26" rx="4" ry="4.5" fill="white"/>
+  <ellipse cx="31" cy="26" rx="4" ry="4.5" fill="white"/>
+  <ellipse cx="19.5" cy="26" rx="2.2" ry="3" fill="#4E2A17"/>
+  <ellipse cx="31.5" cy="26" rx="2.2" ry="3" fill="#4E2A17"/>
+  <circle cx="18.5" cy="24.5" r="0.8" fill="white" opacity="0.9"/>
+  <circle cx="30.5" cy="24.5" r="0.8" fill="white" opacity="0.9"/>
+  
+  <!-- Nose - triangle -->
+  <path d="M25 31 L23 33 L27 33 Z" fill="#4E2A17"/>
+  
+  <!-- Mouth -->
+  <path d="M25 33 L25 35 M25 35 Q23 36 21 36 M25 35 Q27 36 29 36" fill="none" stroke="#4E2A17" stroke-width="1" stroke-linecap="round"/>
+  
+  <!-- Whiskers - longer and more curved -->
+  <path d="M12 27 Q6 26 2 25 M12 29 Q6 29 2 29 M12 31 Q6 32 2 34" stroke="#4E2A17" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+  <path d="M38 27 Q44 26 48 25 M38 29 Q44 29 48 29 M38 31 Q44 32 48 34" stroke="#4E2A17" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+  
+
   <text x="25" y="56" font-family="system-ui" font-size="8.5" text-anchor="middle" fill="#4E2A17" font-weight="bold">${name}</text>
 </svg>
 `);
@@ -56,19 +79,53 @@ const buildingSvg = (abbr: string) => encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 50" width="40" height="50">
   <defs>
     <linearGradient id="buildGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#E2C3A7;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#D4A88C;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#847570;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#6B5D59;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5C4E4A;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#4A3D39;stop-opacity:1"/>
     </linearGradient>
   </defs>
-  <rect x="8" y="10" width="24" height="30" rx="2" fill="url(#buildGrad)" stroke="#4E2A17" stroke-width="2"/>
-  <rect x="12" y="15" width="4" height="4" fill="#F5E6D3" stroke="#4E2A17" stroke-width="0.5"/>
-  <rect x="24" y="15" width="4" height="4" fill="#F5E6D3" stroke="#4E2A17" stroke-width="0.5"/>
-  <rect x="12" y="23" width="4" height="4" fill="#F5E6D3" stroke="#4E2A17" stroke-width="0.5"/>
-  <rect x="24" y="23" width="4" height="4" fill="#F5E6D3" stroke="#4E2A17" stroke-width="0.5"/>
-  <rect x="18" y="31" width="4" height="4" fill="#F5E6D3" stroke="#4E2A17" stroke-width="0.5"/>
-  <path d="M10 10 L20 5 L30 10 Z" fill="#D4A88C" stroke="#4E2A17" stroke-width="1"/>
-  <rect x="17" y="38" width="6" height="8" fill="#8B6F47" rx="1"/>
-  <text x="20" y="45" font-family="system-ui" font-size="9" text-anchor="middle" fill="#4E2A17" font-weight="bold">${abbr}</text>
+  
+  <!-- Main building body -->
+  <rect x="8" y="12" width="24" height="28" rx="1" fill="url(#buildGrad)" stroke="#3A2E2B" stroke-width="1.5"/>
+  
+ 
+  
+  <!-- Top floor windows -->
+  <rect x="11" y="15" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
+  <rect x="24" y="15" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
+  <line x1="13.5" y1="15" x2="13.5" y2="20" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="11" y1="17.5" x2="16" y2="17.5" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="26.5" y1="15" x2="26.5" y2="20" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="24" y1="17.5" x2="29" y2="17.5" stroke="#3A2E2B" stroke-width="0.5"/>
+  
+  <!-- Middle floor windows -->
+  <rect x="11" y="23" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
+  <rect x="24" y="23" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
+  <line x1="13.5" y1="23" x2="13.5" y2="28" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="11" y1="25.5" x2="16" y2="25.5" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="26.5" y1="23" x2="26.5" y2="28" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="24" y1="25.5" x2="29" y2="25.5" stroke="#3A2E2B" stroke-width="0.5"/>
+  
+  <!-- Center bottom window -->
+  <rect x="17.5" y="31" width="5" height="5" rx="0.5" fill="#E8DDD8" stroke="#3A2E2B" stroke-width="0.8"/>
+  <line x1="20" y1="31" x2="20" y2="36" stroke="#3A2E2B" stroke-width="0.5"/>
+  <line x1="17.5" y1="33.5" x2="22.5" y2="33.5" stroke="#3A2E2B" stroke-width="0.5"/>
+  
+  <!-- Door with arch -->
+  <rect x="16" y="34" width="8" height="6" fill="#5C4E4A" stroke="#3A2E2B" stroke-width="1"/>
+  <path d="M16 34 Q20 32.5 24 34" fill="#5C4E4A" stroke="#3A2E2B" stroke-width="1"/>
+  <circle cx="22.5" cy="36.5" r="0.6" fill="#C9A882"/>
+  
+  <!-- Building details - floor separators -->
+  <rect x="8" y="16" width="24" height="0.5" fill="#6B5D59" opacity="0.4"/>
+  <rect x="8" y="24" width="24" height="0.5" fill="#6B5D59" opacity="0.4"/>
+  <rect x="8" y="32" width="24" height="0.5" fill="#6B5D59" opacity="0.4"/>
+  
+  <!-- Abbreviation text -->
+  <text x="20" y="47" font-family="system-ui" font-size="7" text-anchor="middle" fill="#3A2E2B" font-weight="bold">${abbr}</text>
 </svg>
 `);
 
