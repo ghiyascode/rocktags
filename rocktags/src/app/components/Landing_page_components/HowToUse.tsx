@@ -65,7 +65,7 @@ function StepCard({ step }: StepCardProps) {
           text-lg font-bold font-heading
           text-[#E2C3A7] mb-2 flex items-center gap-2
         ">
-          <Icon className="w-5 h-5 text-[#E2C3A7] flex-shrink-0" />
+          <Icon className="w-5 h-5 text-[#4E2A17] flex-shrink-0" />
           <span>{step.title}</span>
         </h3>
 

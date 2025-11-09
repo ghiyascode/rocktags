@@ -18,7 +18,7 @@ export function InfoSection() {
         <div className="grid md:grid-cols-3 gap-10">
           {[
             {
-              icon: <FontAwesomeIcon icon={faPaw} className="w-10 h-10 text-[#4E2A17]" />,
+              icon: <FontAwesomeIcon icon={faPaw} className="w-24 h-24 text-[#4E2A17]" />,
               title: "Community Building",
               desc: "Connect with fellow cat lovers and share sightings.",
             },
