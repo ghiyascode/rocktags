@@ -424,7 +424,12 @@ export default function MapWithEverything({ cats, buildings, onCatClick }: Props
       <div ref={mapRef} className="w-full h-full rounded-xl" />
 
       {/* LEGEND */}
-      <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-3.5 text-sm font-medium text-gray-800 space-y-2 border border-gray-100">
+      <div className="
+        absolute bottom-4 right-4
+        bg-white/95 backdrop-blur-sm rounded-lg shadow-xl
+        p-3.5 text-sm font-medium text-gray-800
+        space-y-2 border border-gray-100 z-10
+      ">
         <div className="flex items-center gap-2.5">
           <CatLegendIcon />
           <span>Campus Cats</span>
