@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 import { auth } from "@/config/firebase";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { Mail, Lock, UserPlus, CheckCircle, AlertCircle, Sparkles } from "lucide-react";
+import { Mail, Lock, UserPlus, CheckCircle, AlertCircle, Sparkles, Home } from "lucide-react";
 
 export function SignUpForm() {
   const [email, setEmail] = useState("");
@@ -68,12 +68,12 @@ export function SignUpForm() {
       <div className="text-center mb-8">
         <div className="inline-flex items-center space-x-2 animate-fade-in">
           <div className="relative">
-            <Sparkles className="w-10 h-10 text-yellow-400 animate-pulse" />
-            <div className="absolute inset-0 bg-yellow-400 blur-xl opacity-50 animate-ping" />
+            <Sparkles className="w-10 h-10 text-[#E2C3A7] animate-pulse" />
+            <div className="absolute inset-0 bg-[#E2C3A7] blur-xl opacity-50 animate-ping" />
           </div>
-          <h1 className="text-4xl font-bold font-['Poppins']">Meovrick</h1>
+          <h1 className="text-4xl font-bold font-['Poppins']">Meowvrick</h1>
         </div>
-        <p className="text-white/70 mt-2 font-['Roboto']">Join the campus cat community</p>
+        <p className="text-[#4E2A17] mt-2 font-['Roboto']">Join the campus cat community</p>
       </div>
 
       {/* CARD: #4E2A17 */}
@@ -81,13 +81,13 @@ export function SignUpForm() {
         <form onSubmit={handleSignUp} className="space-y-6">
           <div className="space-y-4">
             <div className="relative group">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-[#E2C3A7] transition-colors" />
               <input
                 type="email"
                 placeholder="your.name@mavs.uta.edu"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-10 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
+                className="w-full pl-12 pr-10 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#E2C3A7] focus:border-[#E2C3A7] transition-all font-['Roboto']"
                 required
               />
               {email && !validateEmail(email) && (
@@ -99,25 +99,25 @@ export function SignUpForm() {
             </div>
 
             <div className="relative group">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-[#E2C3A7] transition-colors" />
               <input
                 type="password"
                 placeholder="Password (6+ chars)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#E2C3A7] focus:border-[#E2C3A7] transition-all font-['Roboto']"
                 required
               />
             </div>
 
             <div className="relative group">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-[#E2C3A7] transition-colors" />
               <input
                 type="password"
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#E2C3A7] focus:border-[#E2C3A7] transition-all font-['Roboto']"
                 required
               />
             </div>
@@ -153,7 +153,7 @@ export function SignUpForm() {
         <div className="mt-8 pt-6 border-t border-white/10 text-center">
           <p className="text-white/70 text-sm font-['Roboto']">
             Already have an account?{" "}
-            <Link href="/signin" className="text-yellow-400 hover:underline font-medium">
+            <Link href="/signin" className="text-[#E2C3A7] hover:underline font-medium">
               Sign in
             </Link>
           </p>
@@ -165,7 +165,10 @@ export function SignUpForm() {
             variant="outline"
             className="w-full border-white/30 text-white hover:bg-white hover:text-[#4E2A17] bg-[#4E2A17]/70"
           >
-            <Link href="/">Back to Home</Link>
+            <Link href="/">
+              <Home className="w-4 h-4 mr-2" />
+              Back to Home
+            </Link>
           </Button>
         </div>
       </div>
@@ -179,4 +182,4 @@ export function SignUpForm() {
       `}</style>
     </div>
   );
-}
+};

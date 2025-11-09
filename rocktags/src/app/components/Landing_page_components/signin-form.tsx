@@ -67,12 +67,12 @@ export function SignInForm() {
       <div className="text-center mb-8">
         <div className="inline-flex items-center space-x-2 animate-fade-in">
           <div className="relative">
-            <Sparkles className="w-10 h-10 text-yellow-400 animate-pulse" />
-            <div className="absolute inset-0 bg-yellow-400 blur-xl opacity-50 animate-ping" />
+            <Sparkles className="w-10 h-10 text-[#E2C3A7] animate-pulse" />
+            <div className="absolute inset-0 bg-[#E2C3A7] blur-xl opacity-50 animate-ping" />
           </div>
-          <h1 className="text-4xl font-bold font-['Poppins']">Meovrick</h1>
+          <h1 className="text-4xl font-bold font-['Poppins']">Meowvrick</h1>
         </div>
-        <p className="text-white/70 mt-2 font-['Roboto']">Sign in to track your favorite campus cats</p>
+        <p className="text-[#4E2A17] mt-2 font-['Roboto']">Sign in to track your favorite campus cats</p>
       </div>
 
       {/* CARD: #4E2A17 */}
@@ -80,25 +80,25 @@ export function SignInForm() {
         <form onSubmit={handleSignIn} className="space-y-6">
           <div className="space-y-4">
             <div className="relative group">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-[#E2C3A7] transition-colors" />
               <input
                 type="email"
                 placeholder="UTA Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#E2C3A7] focus:border-[#E2C3A7] transition-all font-['Roboto']"
                 required
               />
             </div>
 
             <div className="relative group">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-yellow-400 transition-colors" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-[#E2C3A7] transition-colors" />
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all font-['Roboto']"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-[#E2C3A7] focus:border-[#E2C3A7] transition-all font-['Roboto']"
                 required
               />
             </div>
@@ -130,7 +130,7 @@ export function SignInForm() {
             <button
               type="button"
               onClick={handleResetPassword}
-              className="text-sm text-white/70 hover:text-yellow-400 transition-colors font-['Roboto']"
+              className="text-sm text-white/70 hover:text-[#E2C3A7] transition-colors font-['Roboto']"
             >
               Forgot password?
             </button>
@@ -140,7 +140,7 @@ export function SignInForm() {
         <div className="mt-8 pt-6 border-t border-white/10">
           <p className="text-center text-white/70 text-sm font-['Roboto']">
             Don't have an account?{" "}
-            <Link href="/signup" className="text-yellow-400 hover:underline font-medium">
+            <Link href="/signup" className="text-[#E2C3A7] hover:underline font-medium">
               Sign up
             </Link>
           </p>
