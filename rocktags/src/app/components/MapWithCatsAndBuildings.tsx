@@ -20,16 +20,85 @@ const UTA_BOUNDS = {
 } as const;
 
 /* ---------- MAP STYLES (theme) ---------- */
-const MAP_STYLES = [
+const MAP_STYLES: google.maps.MapTypeStyle[] = [
+  // === Hide visual noise ===
   { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
   { featureType: "transit", elementType: "labels", stylers: [{ visibility: "off" }] },
   { featureType: "road", elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-  { featureType: "poi.park", elementType: "geometry.fill", stylers: [{ color: "#E2C3A7" }] },
-  { featureType: "landscape", elementType: "geometry", stylers: [{ color: "#F5E6D3" }] },
-  { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
-  { featureType: "water", elementType: "geometry", stylers: [{ color: "#A7D2E2" }] },
-] as google.maps.MapTypeStyle[];
 
+  // === Land & Nature ===
+  {
+    featureType: "landscape",
+    elementType: "geometry.fill",
+    stylers: [{ color: "#FFFCF4" }], // Warm, airy base
+  },
+  {
+    featureType: "poi.park",
+    elementType: "geometry.fill",
+    stylers: [{ color: "#D6C9C8" }], // Soft, natural park fill
+  },
+
+  // === Road Hierarchy ===
+  // Highways: Bold periwinkle with rich brown outline
+  {
+    featureType: "road.highway",
+    elementType: "geometry.fill",
+    stylers: [{ color: "#AEBBCE" }],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#4E2A17" }, { weight: 2 }],
+  },
+
+  // Arterial roads: Warm tan with subtle taupe edge
+  {
+    featureType: "road.arterial",
+    elementType: "geometry.fill",
+    stylers: [{ color: "#4E2A17" }],
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#847570" }, { weight: 1 }],
+  },
+
+  // Local roads: Minimal, calming
+  {
+    featureType: "road.local",
+    elementType: "geometry.fill",
+    stylers: [{ color: "#D6C9C8" }],
+  },
+
+  // === Water ===
+  {
+    featureType: "water",
+    elementType: "geometry.fill",
+    stylers: [{ color: "#AEBBCE" }], // Unified with highways
+  },
+  {
+    featureType: "water",
+    elementType: "geometry.stroke",
+    stylers: [{ color: "#4E2A17" }, { weight: 1.2 }],
+  },
+
+  // === Labels: Professional & readable ===
+  {
+    featureType: "all",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#4E2A17" }], // Rich, elegant text
+  },
+  {
+    featureType: "all",
+    elementType: "labels.text.stroke",
+    stylers: [{ color: "#FFFCF4" }, { weight: 3 }], // Crisp halo
+  },
+  {
+    featureType: "administrative",
+    elementType: "labels.text.fill",
+    stylers: [{ color: "#4E2A17" },],
+  },
+];
 /* ---------- SVG ICONS ---------- */
 const catSvg = (name: string) => encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 58" width="50" height="58">
