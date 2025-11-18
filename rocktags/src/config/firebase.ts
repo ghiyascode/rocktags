@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+// get storage for images
+import { getStorage } from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -16,6 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app, 'mainstore');
+const storage = getStorage(app);
 
 export default app;
-export { auth, db };
+export { auth, db, storage };  
