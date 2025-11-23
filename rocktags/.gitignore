@@ -49,5 +49,4 @@ firebase-debug.*.log
 *.log.*
 *.log.*.*
 
-# admin sdk
-serviceAccount.json
+rocktags-testing-firebase-adminsdk-fbsvc-e48f186959.json
