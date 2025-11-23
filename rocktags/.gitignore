@@ -48,3 +48,6 @@ firebase-debug.*.log
 *.log
 *.log.*
 *.log.*.*
+
+# Firebase Admin SDK credentials
+rocktags-testing-firebase-adminsdk-fbsvc-e48f186959.json
