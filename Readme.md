@@ -1,114 +1,73 @@
-# {{PROJECT_NAME}} — Development README
 
-Working draft for maintainers & contributors while the project is under active development. Coordinate in ACM Discord/Slack (project channel or #projects).
+![Meowvricks](rocktags/public/image/Logo.svg)
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="40" alt="typescript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="40" alt="python logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="40" alt="react logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" height="40" alt="googlecloud logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" height="40" alt="firebase logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="40" alt="docker logo"  />
+</div>  <br />
 
-Directors / Contacts: Tobi and Prajit Viswanadha — DM on Discord
-
----
-
-## Status & Links
-- Phase: In Development
-- Project board: {{PROJECT_BOARD_URL}}
-- Communication: Discord #rocktags
-- Open issues: use repo Issues; prefer labels `good first issue` and `help wanted` thoughtfully
+Proof-of-concept website to show tracker locations.
 
 ---
 
 ## Getting Started
 
-### Prerequisites
-- Git
-- One of: Node 20+ or Python 3.11+ or Go 1.22+ or Rust (stable)
-- Optional: Docker Desktop
+This project also relies on [rocktags-backend](https://github.com/t0rrential/rocktags-backend) to work. An installation and setup guide is provided in the README of that repo.
 
-### Environment
-- Copy the sample env to your local file: `cp .env.example .env`
-- Keep secrets out of git. If you add a new variable, document it in `.env.example`.
+### 1. **Clone the Repository**
 
-### Bootstrap
-- Clone: `git clone https://github.com/{{GITHUB_OWNER}}/{{REPO}}.git` then `cd {{REPO}}`
-- Node: if `package.json` exists → `npm ci` (fallback `npm install`)
-- Python: if `requirements.txt` exists → create venv `python -m venv .venv`, activate, then `pip install -r requirements.txt`
-- Go: if `go.mod` exists → `go mod download`
-- Rust: if `Cargo.toml` exists → `cargo fetch`
+```bash
+git clone https://github.com/ghiyascode/rocktags.git  
+cd rocktags
+```
 
-### Run
-- Node: `npm run dev` (dev server) or `npm start` (if app defines it)
-- Python (FastAPI example): `uvicorn app:app --reload`
-- Go: `go run ./...`
-- Rust: `cargo run`
+### 2. **Install Dependencies**
 
----
+```bash
+npm i
 
-## Repo Conventions
+# if you also want to write and deploy your own cloud functions, do the following
+cd rocktags/functions/
+npm i
+```
 
-### Commits & Branches
-- Use Conventional Commits. Examples:
-  - `feat(ui): add dark mode toggle`
-  - `fix(api): handle null user_id on login`
-  - `docs(readme): clarify quickstart`
-  - `chore(deps): bump eslint to v9`
-- Branch names: `feat/<slug>`, `fix/<slug>`, `chore/<slug>`, `docs/<slug>`
+### 3. **Set up Environment Variables**
 
-### Pull Requests
-- Prefer small, focused PRs; link issues using `Fixes #123`
-- Use the PR template: include testing steps, screenshots for UI changes, note breaking changes and rollback plan
-- Request reviews from maintainers or CODEOWNERS
+In the `rocktags`, create an `.env` file and add the following fields to it:
 
-### Testing, Linting, Formatting
-- Aim for at least a smoke test; run local checks before pushing
-- Node: `npm test` (or none if not configured), `npm run lint` (if present), `npm run format` (if present)
-- Python: `pytest` (or note “No tests”), `ruff check .` (if using), `ruff format .`
-- Go: `go test ./...`
-- Rust: `cargo test`
+```bash
+NEXT_PUBLIC_FIREBASE_API_KEY = ""
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = ""
+NEXT_PUBLIC_FIREBASE_PROJECT_ID = ""
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = ""
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = ""
+NEXT_PUBLIC_FIREBASE_APP_ID = ""
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID = ""
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = ""
+```
 
-### Secrets & Configuration
-- Never commit `.env` or credentials
-- Use `.env` locally; keep `.env.example` updated so others know what is required
-- For deployments, store secrets in platform settings (not in code)
+### 4. Run the Project
 
----
+You can start the project by running the following:
 
-## Project Structure (suggested)
-- `src/` — application code
-- `tests/` — unit/integration tests
-- `docs/` — screenshots, diagrams, decisions (ADRs)
-- `.github/` — PR/Issue templates, CODEOWNERS (optional)
-- `.env.example` — sample env vars (copy to `.env` locally)
-- `README.dev.md` — this file (dev-only)
+```bash
+npm run dev
+```
 
----
+## Trackers
 
-## Decision Log (keep brief)
-Create `docs/DECISIONS.md` and record major choices with date and rationale. Example entries:
-- 2025-09-14: Choose Postgres over Mongo (SQL familiarity, joins, migrations)
-- 2025-09-14: Host on Render for MVP (simple, acceptable free tier)
+The trackers for this project were made with firmware from [macless-haystack](https://github.com/dchristl/macless-haystack).
 
----
 
-## Release Prep Checklist (before first public release)
-- Finalize end-user README (rename/replace root README; include screenshot/GIF)
-- Choose and add a LICENSE file appropriate for the project
-- Ensure `.env.example` documents all required variables
-- Confirm basic tests pass; document manual smoke test steps
-- Tag `v0.1.0` with concise release notes
+Ensure your Firebase workspace is on a Blaze plan, or some parts of this project may not work properly.
 
----
-
-## Code of Conduct (embedded)
-- Be respectful and inclusive; harassment or discrimination is not tolerated
-- Assume good intent; give clear, constructive feedback
-- Report concerns privately to a director (contacts above)
-
----
-
-## Security / Responsible Disclosure (embedded)
-- Do not open public issues for vulnerabilities
-- Privately contact Tobi or Prajit Viswanadha (ACM Discord/Slack DM) with details and reproduction steps
-- We will acknowledge receipt and coordinate a fix
-
----
-
-## Maintainers & Support
-- Maintainers: {{PRIMARY_OWNER}} ([@{{GITHUB_HANDLE}}](https://github.com/{{GITHUB_HANDLE}})), {{CO_MAINTAINER}}
-- Directors / Contacts: Tobi and Prajit Viswanadha — DM on Discord
